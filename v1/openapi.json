@@ -1,0 +1,2143 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Up API",
+    "version": "v1",
+    "description": "The Up API gives you programmatic access to your balances and\ntransaction data. You can request past transactions or set up\nwebhooks to receive real-time events when new transactions hit your\naccount. It’s new, it’s exciting and it’s just the beginning.\n",
+    "contact": {
+      "name": "API Specification and Support",
+      "url": "https://github.com/up-banking/api"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.up.com.au/api/v1"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer_auth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "AccountTypeEnum": {
+        "enum": [
+          "SAVER",
+          "TRANSACTIONAL"
+        ],
+        "description": "Specifies the type of bank account. Currently returned values are `SAVER`\nand `TRANSACTIONAL`.\n"
+      },
+      "MoneyObject": {
+        "type": "object",
+        "description": "Provides information about a value of money.\n",
+        "properties": {
+          "currencyCode": {
+            "type": "string",
+            "description": "The ISO 4217 currency code.\n"
+          },
+          "value": {
+            "type": "string",
+            "description": "The amount of money, formatted as a string in the relevant currency.\nFor example, for an Australian dollar value of $10.56, this field will\nbe `\"10.56\"`. The currency symbol is not included in the string.\n"
+          },
+          "valueInBaseUnits": {
+            "type": "integer",
+            "description": "The amount of money in the smallest denomination for the currency, as a\n64-bit integer.  For example, for an Australian dollar value of $10.56,\nthis field will be `1056`.\n"
+          }
+        },
+        "required": [
+          "currencyCode",
+          "value",
+          "valueInBaseUnits"
+        ]
+      },
+      "AccountResource": {
+        "type": "object",
+        "description": "Provides information about an Up bank account.\n",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for this account.\n"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of this resource: `accounts`"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "displayName": {
+                "type": "string",
+                "description": "The name associated with the account in the Up application.\n"
+              },
+              "accountType": {
+                "description": "The bank account type of this account.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AccountTypeEnum"
+                  }
+                ]
+              },
+              "balance": {
+                "description": "The available balance of the account, taking into account any amounts\nthat are currently on hold.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MoneyObject"
+                  }
+                ]
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The date-time at which this account was first opened.\n"
+              }
+            },
+            "required": [
+              "displayName",
+              "accountType",
+              "balance",
+              "createdAt"
+            ]
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "self": {
+                "type": "string",
+                "description": "The canonical link to this resource.\n"
+              }
+            },
+            "required": [
+              "self"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "transactions": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string",
+                        "description": "The link to get the related resource data for this relationship.\n"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  }
+                }
+              }
+            },
+            "required": [
+              "transactions"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes",
+          "relationships"
+        ]
+      },
+      "ListAccountsResponse": {
+        "type": "object",
+        "description": "Successful response to get all accounts. This returns a paginated list of\naccounts, which can be scrolled by following the `prev` and `next` links\nif present.\n",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountResource"
+            },
+            "description": "The list of accounts returned in this response.\n"
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "prev": {
+                "type": "string",
+                "nullable": true,
+                "description": "The link to the previous page in the results. If this value is `null`\nthere is no previous page.\n"
+              },
+              "next": {
+                "type": "string",
+                "nullable": true,
+                "description": "The link to the next page in the results. If this value is `null`\nthere is no next page.\n"
+              }
+            },
+            "required": [
+              "prev",
+              "next"
+            ]
+          }
+        },
+        "required": [
+          "data",
+          "links"
+        ]
+      },
+      "GetAccountResponse": {
+        "type": "object",
+        "description": "Successful response to get a single account.\n",
+        "properties": {
+          "data": {
+            "description": "The account returned in this response.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountResource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "PingResponse": {
+        "type": "object",
+        "description": "Basic ping response to verify authentication.\n",
+        "properties": {
+          "meta": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique identifier of the authenticated customer.\n"
+              },
+              "statusEmoji": {
+                "type": "string",
+                "description": "A cute emoji that represents the response status.\n"
+              }
+            },
+            "required": [
+              "id",
+              "statusEmoji"
+            ]
+          }
+        },
+        "required": [
+          "meta"
+        ]
+      },
+      "ErrorObject": {
+        "type": "object",
+        "description": "Provides information about an error processing a request.\n",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The HTTP status code associated with this error. This can also be\nobtained from the response headers. The status indicates the broad type\nof error according to HTTP semantics.\n"
+          },
+          "title": {
+            "type": "string",
+            "description": "A short description of this error. This should be stable across\nmultiple occurrences of this type of error and typically expands on the\nreason for the status code.\n"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A detailed description of this error. This should be considered unique\nto individual occurrences of an error and subject to change. It is\nuseful for debugging purposes.\n"
+          },
+          "source": {
+            "type": "object",
+            "properties": {
+              "parameter": {
+                "type": "string",
+                "description": "If this error relates to a query parameter, the name of the\nparameter.\n"
+              },
+              "pointer": {
+                "type": "string",
+                "description": "If this error relates to an attribute in the request body, a\nrfc-6901 JSON pointer to the attribute.\n"
+              }
+            },
+            "description": "If applicable, location in the request that this error relates to. This\nmay be a parameter in the query string, or a an attribute in the\nrequest body.\n"
+          }
+        },
+        "required": [
+          "status",
+          "title",
+          "detail"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Generic error response that returns one or more errors.\n",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorObject"
+            },
+            "description": "The list of errors returned in this response.\n"
+          }
+        },
+        "required": [
+          "errors"
+        ]
+      },
+      "TransactionStatusEnum": {
+        "enum": [
+          "HELD",
+          "SETTLED"
+        ],
+        "description": "Specifies which stage of processing a transaction is currently at.\nCurrently returned values are `HELD` and `SETTLED`. When a transaction is\nheld, its account’s `availableBalance` is affected. When a transaction is\nsettled, its account’s `currentBalance` is affected.\n"
+      },
+      "HoldInfoObject": {
+        "type": "object",
+        "description": "Provides information about the amount at which a transaction was in the\n`HELD` status.\n",
+        "properties": {
+          "amount": {
+            "description": "The amount of this transaction while in the `HELD` status, in\nAustralian dollars.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MoneyObject"
+              }
+            ]
+          },
+          "foreignAmount": {
+            "nullable": true,
+            "description": "The foreign currency amount of this transaction while in the `HELD`\nstatus. This field will be `null` for domestic transactions. The amount\nwas converted to the AUD amount reflected in the `amount` field.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MoneyObject"
+              }
+            ]
+          }
+        },
+        "required": [
+          "amount",
+          "foreignAmount"
+        ]
+      },
+      "RoundUpObject": {
+        "type": "object",
+        "description": "Provides information about how a Round Up was applied, such as whether or\nnot a boost was included in the Round Up.\n",
+        "properties": {
+          "amount": {
+            "description": "The total amount of this Round Up, represented as negative value.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MoneyObject"
+              }
+            ]
+          },
+          "boostPortion": {
+            "nullable": true,
+            "description": "The portion of the Round Up `amount` owing to boosted Round Ups,\nrepresented as a negative value. If no boost was added to the Round Up\nthis field will be `null`.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MoneyObject"
+              }
+            ]
+          }
+        },
+        "required": [
+          "amount",
+          "boostPortion"
+        ]
+      },
+      "CashbackObject": {
+        "type": "object",
+        "description": "Provides information about an instant reimbursement in the form of\ncashback.\n",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "A brief description of why this cashback was paid.\n"
+          },
+          "amount": {
+            "description": "The total amount of cashback paid, represented as a positive value.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MoneyObject"
+              }
+            ]
+          }
+        },
+        "required": [
+          "description",
+          "amount"
+        ]
+      },
+      "TransactionResource": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for this transaction.\n"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of this resource: `transactions`"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "description": "The current processing status of this transaction, according to\nwhether or not this transaction has settled or is still held.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TransactionStatusEnum"
+                  }
+                ]
+              },
+              "rawText": {
+                "type": "string",
+                "nullable": true,
+                "description": "The original, unprocessed text of the transaction. This is often not\na perfect indicator of the actual merchant, but it is useful for\nreconciliation purposes in some cases.\n"
+              },
+              "description": {
+                "type": "string",
+                "description": "A short description for this transaction. Usually the merchant name\nfor purchases.\n"
+              },
+              "message": {
+                "type": "string",
+                "nullable": true,
+                "description": "Attached message for this transaction, such as a payment message, or a\ntransfer note.\n"
+              },
+              "holdInfo": {
+                "nullable": true,
+                "description": "If this transaction is currently in the `HELD` status, or was ever in\nthe `HELD` status, the `amount` and `foreignAmount` of the\ntransaction while `HELD`.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/HoldInfoObject"
+                  }
+                ]
+              },
+              "roundUp": {
+                "nullable": true,
+                "description": "Details of how this transaction was rounded-up. If no Round Up was\napplied this field will be `null`.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RoundUpObject"
+                  }
+                ]
+              },
+              "cashback": {
+                "nullable": true,
+                "description": "If all or part of this transaction was instantly reimbursed in the\nform of cashback, details of the reimbursement.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CashbackObject"
+                  }
+                ]
+              },
+              "amount": {
+                "description": "The amount of this transaction in Australian dollars. For\ntransactions that were once `HELD` but are now `SETTLED`, refer to\nthe `holdInfo` field for the original `amount` the transaction was\n`HELD` at.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MoneyObject"
+                  }
+                ]
+              },
+              "foreignAmount": {
+                "nullable": true,
+                "description": "The foreign currency amount of this transaction. This field will be\n`null` for domestic transactions. The amount was converted to the AUD\namount reflected in the `amount` of this transaction. Refer to the\n`holdInfo` field for the original `foreignAmount` the transaction was\n`HELD` at.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MoneyObject"
+                  }
+                ]
+              },
+              "settledAt": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true,
+                "description": "The date-time at which this transaction settled. This field will be\n`null` for transactions that are currently in the `HELD` status.\n"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The date-time at which this transaction was first encountered.\n"
+              }
+            },
+            "required": [
+              "status",
+              "rawText",
+              "description",
+              "message",
+              "holdInfo",
+              "roundUp",
+              "cashback",
+              "amount",
+              "foreignAmount",
+              "settledAt",
+              "createdAt"
+            ]
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "self": {
+                "type": "string",
+                "description": "The canonical link to this resource.\n"
+              }
+            },
+            "required": [
+              "self"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "account": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string",
+                        "description": "The link to get the related resource data for this relationship.\n"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            },
+            "required": [
+              "account"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes",
+          "relationships"
+        ]
+      },
+      "ListTransactionsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionResource"
+            },
+            "description": "The list of transactions returned in this response.\n"
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "prev": {
+                "type": "string",
+                "nullable": true,
+                "description": "The link to the previous page in the results. If this value is `null`\nthere is no previous page.\n"
+              },
+              "next": {
+                "type": "string",
+                "nullable": true,
+                "description": "The link to the next page in the results. If this value is `null`\nthere is no next page.\n"
+              }
+            },
+            "required": [
+              "prev",
+              "next"
+            ]
+          }
+        },
+        "required": [
+          "data",
+          "links"
+        ]
+      },
+      "GetTransactionResponse": {
+        "type": "object",
+        "description": "Successful response to get a single transaction.\n",
+        "properties": {
+          "data": {
+            "description": "The transaction returned in this response.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TransactionResource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "WebhookResource": {
+        "type": "object",
+        "description": "Provides information about a webhook.\n",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for this webhook.\n"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of this resource: `webhooks`"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "The URL that this webhook is configured to `POST` events to.\n"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The date-time at which this webhook was created.\n"
+              }
+            },
+            "required": [
+              "url",
+              "createdAt"
+            ]
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "self": {
+                "type": "string",
+                "description": "The canonical link to this resource.\n"
+              }
+            },
+            "required": [
+              "self"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "logs": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string",
+                        "description": "The link to get the related resource data for this relationship.\n"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  }
+                }
+              }
+            },
+            "required": [
+              "logs"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes",
+          "relationships"
+        ]
+      },
+      "ListWebhooksResponse": {
+        "type": "object",
+        "description": "Successful response to get all webhooks. This returns a paginated list of\nwebhooks, which can be scrolled by following the `prev` and `next` links\nif present.\n",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookResource"
+            },
+            "description": "The list of webhooks returned in this response.\n"
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "prev": {
+                "type": "string",
+                "nullable": true,
+                "description": "The link to the previous page in the results. If this value is `null`\nthere is no previous page.\n"
+              },
+              "next": {
+                "type": "string",
+                "nullable": true,
+                "description": "The link to the next page in the results. If this value is `null`\nthere is no next page.\n"
+              }
+            },
+            "required": [
+              "prev",
+              "next"
+            ]
+          }
+        },
+        "required": [
+          "data",
+          "links"
+        ]
+      },
+      "WebhookInputResource": {
+        "type": "object",
+        "description": "Represents a webhook specified as request input.\n",
+        "properties": {
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL that this webhook should post events to. This must be a valid\nHTTP or HTTPS URL that does not exceed 120 characters in length.\n"
+              }
+            },
+            "required": [
+              "url"
+            ]
+          }
+        },
+        "required": [
+          "attributes"
+        ]
+      },
+      "CreateWebhookRequest": {
+        "type": "object",
+        "description": "Request to create a new webhook. This currently only requires a `url`\nattribute.\n",
+        "properties": {
+          "data": {
+            "description": "The webhook resource to create.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WebhookInputResource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "CreateWebhookResponse": {
+        "type": "object",
+        "description": "Successful response after creating a webhook.\n",
+        "properties": {
+          "data": {
+            "description": "The webhook that was created.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WebhookResource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "WebhookEventTypeEnum": {
+        "enum": [
+          "TRANSACTION_CREATED",
+          "TRANSACTION_SETTLED",
+          "TRANSACTION_DELETED",
+          "PING"
+        ],
+        "description": "Specifies the type of a webhook event. This can be used to determine what\naction to take in response to the event, such as which relationships to\nexpect.\n"
+      },
+      "WebhookEventResource": {
+        "type": "object",
+        "description": "Provides the event data used in asynchronous webhook event callbacks to\nsubscribed endpoints. Webhooks events have defined `eventType`s and may\noptionally relate to other resources within the Up API.\n",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for this event. This will remain constant across\ndelivery retries.\n"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of this resource: `webhook-events`"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "eventType": {
+                "description": "The type of this event. This can be used to determine what action to\ntake in response to the event.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/WebhookEventTypeEnum"
+                  }
+                ]
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The date-time at which this event was generated.\n"
+              }
+            },
+            "required": [
+              "eventType",
+              "createdAt"
+            ]
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "self": {
+                "type": "string",
+                "description": "The canonical link to this resource.\n"
+              }
+            },
+            "required": [
+              "self"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "webhook": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string",
+                        "description": "The link to get the related resource data for this relationship.\n"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              },
+              "transaction": {
+                "type": "object",
+                "properties": {
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string",
+                        "description": "The link to get the related resource data for this relationship.\n"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            },
+            "required": [
+              "webhook"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes",
+          "relationships"
+        ]
+      },
+      "WebhookEventCallback": {
+        "type": "object",
+        "description": "Asynchronous callback request used for webhook event delivery.\n",
+        "properties": {
+          "data": {
+            "description": "The webhook event data sent to the subscribed webhook.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WebhookEventResource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "GetWebhookResponse": {
+        "type": "object",
+        "description": "Successful response to get a single webhook.\n",
+        "properties": {
+          "data": {
+            "description": "The webhook returned in this response.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WebhookResource"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "WebhookDeliveryStatusEnum": {
+        "enum": [
+          "DELIVERED",
+          "UNDELIVERABLE",
+          "BAD_RESPONSE_CODE"
+        ],
+        "description": "Specifies the nature of the success or failure of a webhook delivery\nattempt to the subscribed webhook URL. The currently returned values are\ndescribed below:\n\n- **`DELIVERED`**: The event was delivered to the webhook URL\n  successfully and a `200` response was received.\n- **`UNDELIVERABLE`**: The webhook URL was not reachable, or timed out.\n- **`BAD_RESPONSE_CODE`**: The event was delivered to the webhook URL\n  but a non-`200` response was received.\n"
+      },
+      "WebhookDeliveryLogResource": {
+        "type": "object",
+        "description": "Provides historical webhook event delivery information for analysis and\ndebugging purposes.\n",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier for this log entry.\n"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of this resource: `webhook-delivery-logs`"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "request": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "string",
+                    "description": "The payload that was sent in the request body.\n"
+                  }
+                },
+                "required": [
+                  "body"
+                ],
+                "description": "Information about the request that was sent to the webhook URL.\n"
+              },
+              "response": {
+                "type": "object",
+                "properties": {
+                  "statusCode": {
+                    "type": "integer",
+                    "description": "The HTTP status code received in the response.\n"
+                  },
+                  "body": {
+                    "type": "string",
+                    "description": "The payload that was recieved in the response body.\n"
+                  }
+                },
+                "required": [
+                  "statusCode",
+                  "body"
+                ],
+                "nullable": true,
+                "description": "Information about the response that was received from the webhook URL.\n"
+              },
+              "deliveryStatus": {
+                "description": "The success or failure status of this delivery attempt.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/WebhookDeliveryStatusEnum"
+                  }
+                ]
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The date-time at which this log entry was created.\n"
+              }
+            },
+            "required": [
+              "request",
+              "response",
+              "deliveryStatus",
+              "createdAt"
+            ]
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "self": {
+                "type": "string",
+                "description": "The canonical link to this resource.\n"
+              }
+            },
+            "required": [
+              "self"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "webhookEvent": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            },
+            "required": [
+              "webhookEvent"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes",
+          "relationships"
+        ]
+      },
+      "ListWebhookDeliveryLogsResponse": {
+        "type": "object",
+        "description": "Successful response to get all delivery logs for a webhook. This returns\na [paginated](#pagination) list of delivery logs, which can be scrolled\nby following the `next` and `prev` links if present.\n",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookDeliveryLogResource"
+            },
+            "description": "The list of delivery logs returned in this response.\n"
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "prev": {
+                "type": "string",
+                "nullable": true,
+                "description": "The link to the previous page in the results. If this value is `null`\nthere is no previous page.\n"
+              },
+              "next": {
+                "type": "string",
+                "nullable": true,
+                "description": "The link to the next page in the results. If this value is `null`\nthere is no next page.\n"
+              }
+            },
+            "required": [
+              "prev",
+              "next"
+            ]
+          }
+        },
+        "required": [
+          "data",
+          "links"
+        ]
+      }
+    }
+  },
+  "security": [
+    {
+      "bearer_auth": [
+
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Accounts",
+      "description": "Accounts represent the underlying store used to track balances\nand the transactions that have occurred to modify those balances\nover time. Up currently has two types of account: `SAVER`—used to\nearn interest and to hit savings goals, and `TRANSACTIONAL`—used\nfor everyday spending.\n"
+    },
+    {
+      "name": "Transactions",
+      "description": "Transactions represent the movement of money into and out of an\naccount. They have many characteristics that vary depending on\nthe kind of transaction. Transactions may be tempoarily `HELD`\n(pending) or `SETTLED`, typically depending on which payment\nmethod was used at the point of sale.\n"
+    },
+    {
+      "name": "Webhooks",
+      "description": "Webhooks provide a mechanism for a configured URL to receive\nevents when transaction activity occurs on Up. You can think of\nwebhooks as being like push notifications for your server-side\napplication.\n"
+    },
+    {
+      "name": "Utility endpoints",
+      "description": "Some endpoints exist not to expose data, but to test the API\nitself. Currently there is only one endpoint in this group: ping!\n"
+    }
+  ],
+  "paths": {
+    "/accounts": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "List accounts",
+        "description": "Retrieve a paginated list of all accounts for the currently\nauthenticated user. The returned list is paginated and can be scrolled\nby following the `prev` and `next` links where present.\n",
+        "parameters": [
+          {
+            "name": "page[size]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "example": "?page[size]=30",
+            "description": "The number of records to return in each page.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAccountsResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:rudwoQwrTslKsOlD"
+                },
+                "pathParameters": {
+                },
+                "queryParameters": {
+                  "page[size]": 1
+                },
+                "payload": null
+              },
+              "response": {
+                "data": [
+                  {
+                    "id": "2dfc759b-7fbe-4647-8e0d-0912eb52d5dc",
+                    "type": "accounts",
+                    "attributes": {
+                      "displayName": "Up Account",
+                      "accountType": "TRANSACTIONAL",
+                      "balance": {
+                        "currencyCode": "AUD",
+                        "value": "1.00",
+                        "valueInBaseUnits": 100
+                      },
+                      "createdAt": "2020-07-21T11:03:02+10:00"
+                    },
+                    "links": {
+                      "self": "https://api.up.com.au/api/v1/accounts/2dfc759b-7fbe-4647-8e0d-0912eb52d5dc"
+                    },
+                    "relationships": {
+                      "transactions": {
+                        "links": {
+                          "related": "https://api.up.com.au/api/v1/accounts/2dfc759b-7fbe-4647-8e0d-0912eb52d5dc/transactions"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "links": {
+                  "prev": null,
+                  "next": "https://api.up.com.au/api/v1/accounts?page%5Bafter%5D=WyIyMDIwLTA3LTIxVDAxOjAzOjAyLjcwNTUxODAwMFoiLCIyZGZjNzU5Yi03ZmJlLTQ2NDctOGUwZC0wOTEyZWI1MmQ1ZGMiXQ%3D%3D&page%5Bsize%5D=1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{id}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Retrieve account",
+        "description": "Retrieve a specific account by providing its unique identifier.\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "c562c52e-7ead-4f09-bf73-bb10f6af8212",
+            "description": "The unique identifier for the account.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccountResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:bZpaUqS6rJ5mjFCj"
+                },
+                "pathParameters": {
+                  "id": "1d0b7dc8-f39d-4572-aa32-3409afc70640"
+                },
+                "queryParameters": {
+                },
+                "payload": null
+              },
+              "response": {
+                "data": {
+                  "id": "1d0b7dc8-f39d-4572-aa32-3409afc70640",
+                  "type": "accounts",
+                  "attributes": {
+                    "displayName": "Savings",
+                    "accountType": "SAVER",
+                    "balance": {
+                      "currencyCode": "AUD",
+                      "value": "125.36",
+                      "valueInBaseUnits": 12536
+                    },
+                    "createdAt": "2020-07-21T11:03:03+10:00"
+                  },
+                  "links": {
+                    "self": "https://api.up.com.au/api/v1/accounts/1d0b7dc8-f39d-4572-aa32-3409afc70640"
+                  },
+                  "relationships": {
+                    "transactions": {
+                      "links": {
+                        "related": "https://api.up.com.au/api/v1/accounts/1d0b7dc8-f39d-4572-aa32-3409afc70640/transactions"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/util/ping": {
+      "get": {
+        "tags": [
+          "Utility endpoints"
+        ],
+        "summary": "Ping",
+        "description": "Make a basic ping request to the API. This is useful to verify that\nauthentication is functioning correctly. On authentication success an\nHTTP `200` status is returned. On failure an HTTP `401` error response\nis returned.\n",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:RMweL0WfvIGfPaqw"
+                },
+                "pathParameters": {
+                },
+                "queryParameters": {
+                },
+                "payload": null
+              },
+              "response": {
+                "meta": {
+                  "id": "00eff8d7-7455-484d-8131-b0dbc2034e93",
+                  "statusEmoji": "⚡️"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not Authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                },
+                "pathParameters": {
+                },
+                "queryParameters": {
+                },
+                "payload": null
+              },
+              "response": {
+                "errors": [
+                  {
+                    "status": "401",
+                    "title": "Not Authorized",
+                    "detail": "The request was not authenticated because no valid credential was found in the Authorization header, or the Authorization header was not present."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "List transactions",
+        "description": "Retrieve a list of all transactions across all accounts for the currently\nauthenticated user. The returned list is [paginated](#pagination) and can\nbe scrolled by following the `next` and `prev` links where present. To\nnarrow the results to a specific date range pass one or both of\n`filter[since]` and `filter[until]` in the query string. These filter\nparameters **should not** be used for pagination. Results are ordered\nnewest first to oldest last.\n",
+        "parameters": [
+          {
+            "name": "page[size]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "example": "?page[size]=30",
+            "description": "The number of records to return in each page.\n"
+          },
+          {
+            "name": "filter[since]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "example": "?filter[since]=2020-01-01T01:02:03+10:00",
+            "description": "The start date-time from which to return records,\nformatted according to rfc-3339. Not to be used for\npagination purposes.\n"
+          },
+          {
+            "name": "filter[until]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "example": "?filter[until]=2020-02-01T01:02:03+10:00",
+            "description": "The end date-time up to which to return records,\nformatted according to rfc-3339. Not to be used for\npagination purposes.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListTransactionsResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:FcHGjM5RmVXIm53A"
+                },
+                "pathParameters": {
+                },
+                "queryParameters": {
+                  "page[size]": 1
+                },
+                "payload": null
+              },
+              "response": {
+                "data": [
+                  {
+                    "id": "723841e3-2a53-4228-8adb-1a9caa7c7482",
+                    "type": "transactions",
+                    "attributes": {
+                      "status": "SETTLED",
+                      "rawText": null,
+                      "description": "David Taylor",
+                      "message": "Money for the pizzas last night.",
+                      "holdInfo": null,
+                      "roundUp": null,
+                      "cashback": null,
+                      "amount": {
+                        "currencyCode": "AUD",
+                        "value": "-59.98",
+                        "valueInBaseUnits": -5998
+                      },
+                      "foreignAmount": null,
+                      "settledAt": "2020-07-20T04:01:05+10:00",
+                      "createdAt": "2020-07-20T04:01:05+10:00"
+                    },
+                    "links": {
+                      "self": "https://api.up.com.au/api/v1/transactions/723841e3-2a53-4228-8adb-1a9caa7c7482"
+                    },
+                    "relationships": {
+                      "account": {
+                        "links": {
+                          "related": "https://api.up.com.au/api/v1/accounts/7e590f60-4dc6-4a51-aa67-7127d7394213"
+                        },
+                        "data": {
+                          "type": "accounts",
+                          "id": "7e590f60-4dc6-4a51-aa67-7127d7394213"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "links": {
+                  "prev": null,
+                  "next": "https://api.up.com.au/api/v1/transactions?page%5Bafter%5D=WyIyMDIwLTA3LTE5VDE4OjAxOjA1LjI4OTIzMTAwMFoiLCI3MjM4NDFlMy0yYTUzLTQyMjgtOGFkYi0xYTljYWE3Yzc0ODIiXQ%3D%3D&page%5Bsize%5D=1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{id}": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Retrieve transaction",
+        "description": "Retrieve a specific transaction by providing its unique identifier.\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "27ced9a1-3dce-457d-b155-82db015cccfb",
+            "description": "The unique identifier for the transaction.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTransactionResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:sLjYYAPeUGBoAZso"
+                },
+                "pathParameters": {
+                  "id": "625b513d-3f5c-4354-9315-45c076e3da71"
+                },
+                "queryParameters": {
+                },
+                "payload": null
+              },
+              "response": {
+                "data": {
+                  "id": "625b513d-3f5c-4354-9315-45c076e3da71",
+                  "type": "transactions",
+                  "attributes": {
+                    "status": "SETTLED",
+                    "rawText": "WARUNG BEBEK, UBUD INDONES",
+                    "description": "Warung Bebek Bengil",
+                    "message": null,
+                    "holdInfo": {
+                      "amount": {
+                        "currencyCode": "AUD",
+                        "value": "-107.92",
+                        "valueInBaseUnits": -10792
+                      },
+                      "foreignAmount": {
+                        "currencyCode": "IDR",
+                        "value": "-1053698.77",
+                        "valueInBaseUnits": -105369877
+                      }
+                    },
+                    "roundUp": {
+                      "amount": {
+                        "currencyCode": "AUD",
+                        "value": "-0.08",
+                        "valueInBaseUnits": -8
+                      },
+                      "boostPortion": null
+                    },
+                    "cashback": null,
+                    "amount": {
+                      "currencyCode": "AUD",
+                      "value": "-107.92",
+                      "valueInBaseUnits": -10792
+                    },
+                    "foreignAmount": {
+                      "currencyCode": "IDR",
+                      "value": "-1053698.77",
+                      "valueInBaseUnits": -105369877
+                    },
+                    "settledAt": "2020-07-16T09:00:07+10:00",
+                    "createdAt": "2020-07-18T04:00:00+10:00"
+                  },
+                  "links": {
+                    "self": "https://api.up.com.au/api/v1/transactions/625b513d-3f5c-4354-9315-45c076e3da71"
+                  },
+                  "relationships": {
+                    "account": {
+                      "links": {
+                        "related": "https://api.up.com.au/api/v1/accounts/4d4f63b9-8fb1-45e9-995a-d1c065906938"
+                      },
+                      "data": {
+                        "type": "accounts",
+                        "id": "4d4f63b9-8fb1-45e9-995a-d1c065906938"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{accountId}/transactions": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "List transactions by account",
+        "description": "Retrieve a list of all transactions for a specific account. The returned\nlist is [paginated](#pagination) and can be scrolled by following the\n`next` and `prev` links where present. To narrow the results to a\nspecific date range pass one or both of `filter[since]` and\n`filter[until]` in the query string. These filter parameters\n**should not** be used for pagination. Results are ordered newest first\nto oldest last.\n",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "0bdfeac4-e759-43e9-9e6a-a2c31735556c",
+            "description": "The unique identifier for the account.\n"
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "example": "?page[size]=30",
+            "description": "The number of records to return in each page.\n"
+          },
+          {
+            "name": "filter[since]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "example": "?filter[since]=2020-01-01T01:02:03+10:00",
+            "description": "The start date-time from which to return records,\nformatted according to rfc-3339. Not to be used for\npagination purposes.\n"
+          },
+          {
+            "name": "filter[until]",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": false,
+            "example": "?filter[until]=2020-02-01T01:02:03+10:00",
+            "description": "The end date-time up to which to return records,\nformatted according to rfc-3339. Not to be used for\npagination purposes.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListTransactionsResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:gHP7oKvCAXc30PNv"
+                },
+                "pathParameters": {
+                  "accountId": "dff6f632-b242-4298-9c77-e33689d6c6c8"
+                },
+                "queryParameters": {
+                  "page[size]": 1
+                },
+                "payload": null
+              },
+              "response": {
+                "data": [
+                  {
+                    "id": "4fa1a8b0-35a3-41ce-95f8-2705f6ff0566",
+                    "type": "transactions",
+                    "attributes": {
+                      "status": "SETTLED",
+                      "rawText": null,
+                      "description": "David Taylor",
+                      "message": "Money for the pizzas last night.",
+                      "holdInfo": null,
+                      "roundUp": null,
+                      "cashback": null,
+                      "amount": {
+                        "currencyCode": "AUD",
+                        "value": "-59.98",
+                        "valueInBaseUnits": -5998
+                      },
+                      "foreignAmount": null,
+                      "settledAt": "2020-07-20T04:01:07+10:00",
+                      "createdAt": "2020-07-20T04:01:07+10:00"
+                    },
+                    "links": {
+                      "self": "https://api.up.com.au/api/v1/transactions/4fa1a8b0-35a3-41ce-95f8-2705f6ff0566"
+                    },
+                    "relationships": {
+                      "account": {
+                        "links": {
+                          "related": "https://api.up.com.au/api/v1/accounts/dff6f632-b242-4298-9c77-e33689d6c6c8"
+                        },
+                        "data": {
+                          "type": "accounts",
+                          "id": "dff6f632-b242-4298-9c77-e33689d6c6c8"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "links": {
+                  "prev": null,
+                  "next": "https://api.up.com.au/api/v1/accounts/dff6f632-b242-4298-9c77-e33689d6c6c8/transactions?page%5Bafter%5D=WyIyMDIwLTA3LTE5VDE4OjAxOjA3Ljg5NDA5NDAwMFoiLCI0ZmExYThiMC0zNWEzLTQxY2UtOTVmOC0yNzA1ZjZmZjA1NjYiXQ%3D%3D&page%5Bsize%5D=1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhooks": {
+      "get": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "List webhooks",
+        "description": "Retrieve a list of configured webhooks. The returned list is\n[paginated](#pagination) and can be scrolled by following the `next`\nand `prev` links where present. Results are ordered oldest first to\nnewest last.\n",
+        "parameters": [
+          {
+            "name": "page[size]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "example": "?page[size]=30",
+            "description": "The number of records to return in each page.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListWebhooksResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:gSDXwk92n8Tr6417"
+                },
+                "pathParameters": {
+                },
+                "queryParameters": {
+                  "page[size]": 1
+                },
+                "payload": null
+              },
+              "response": {
+                "data": [
+                  {
+                    "id": "3fc6cb11-ea57-4c8d-9ccf-005c67ed0d91",
+                    "type": "webhooks",
+                    "attributes": {
+                      "url": "http://example.com/webhook-1",
+                      "createdAt": "2020-07-19T11:03:08+10:00"
+                    },
+                    "links": {
+                      "self": "https://api.up.com.au/api/v1/webhooks/3fc6cb11-ea57-4c8d-9ccf-005c67ed0d91"
+                    },
+                    "relationships": {
+                      "logs": {
+                        "links": {
+                          "related": "https://api.up.com.au/api/v1/webhooks/3fc6cb11-ea57-4c8d-9ccf-005c67ed0d91/logs"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "links": {
+                  "prev": null,
+                  "next": "https://api.up.com.au/api/v1/webhooks?page%5Bafter%5D=WyIyMDIwLTA3LTE5VDAxOjAzOjA4LjgyOTExMzAwMFoiLCIzZmM2Y2IxMS1lYTU3LTRjOGQtOWNjZi0wMDVjNjdlZDBkOTEiXQ%3D%3D&page%5Bsize%5D=1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Create webhook",
+        "description": "Create a new webhook with a given URL. The URL will receive webhook\nevents as JSON-encoded `POST` requests. The URL must respond with a HTTP\n`200` status on success. Event delivery is retried with exponential\nbackoff if the URL is unreachable or it does not respond with a `200`\nstatus. See [Handling webhook events](#callback_post_webhookURL) for more\ndetails. It is probably a good idea to test the webhook by\n[sending it a `PING` event](#post_webhooks_webhookId_ping) after creating\nit.\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWebhookRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateWebhookResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:DJ9FVroSJ3QcR4BA",
+                  "Content-Type": "application/json"
+                },
+                "pathParameters": {
+                },
+                "queryParameters": {
+                },
+                "payload": {
+                  "data": {
+                    "attributes": {
+                      "url": "http://example.com/webhook"
+                    }
+                  }
+                }
+              },
+              "response": {
+                "data": {
+                  "id": "33e83e32-a019-402e-b770-59aaa9c0e8d9",
+                  "type": "webhooks",
+                  "attributes": {
+                    "url": "http://example.com/webhook",
+                    "createdAt": "2020-07-21T11:03:09+10:00"
+                  },
+                  "links": {
+                    "self": "https://api.up.com.au/api/v1/webhooks/33e83e32-a019-402e-b770-59aaa9c0e8d9"
+                  },
+                  "relationships": {
+                    "logs": {
+                      "links": {
+                        "related": "https://api.up.com.au/api/v1/webhooks/33e83e32-a019-402e-b770-59aaa9c0e8d9/logs"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "callbacks": {
+          "Event": {
+            "{webhookURL}": {
+              "post": {
+                "summary": "Handling webhook events",
+                "description": "Once you have created a webhook in the Up API, events are sent to the\nwebhook’s configured URL as JSON-encoded `POST` requests. The webhook\nURL must respond with a HTTP `200` status on success.\n\nIt is important that the URL responds in a timely manner. If the URL\ntakes too long to respond (currently 30s), the request will be timed\nout. For this reason it is strongly advised to avoid any heavy\nprocessing before a response has been returned from the URL. A common\nsolution to this problem is to use a message broker such as RabbitMQ\nto do the work asynchronously.\n\nEvent delivery is retried with exponential backoff in the case of any\nnon `200` response status, if the URL is unreachable, or if the request\nis timed out.\n\nRefer to the `eventType` attribute in order to determine what course of\naction to take when handling the event. The following event types are\ncurrently sent:\n\n**`PING`**\n\nManually triggered by calls to the webhook `ping` endpoint. Used for\ntesting and debugging purposes.\n\n**`TRANSACTION_CREATED`**\n\nTriggered whenever a new transaction is created in Up. This event\nincludes a `transaction` relationship that provides the unique\nidentifier for the transaction and a link to the transaction within the\nUp API. This link should be used to retrieve the complete transaction\ndata.\n\n**`TRANSACTION_SETTLED`**\n\nTriggered whenever a transaction transitions from the `HELD` status to\nthe `SETTLED` status. This event includes a `transaction` relationship\nthat provides the unique identifier for the transaction and a link to\nthe transaction within the Up API. This link should be used to retrieve\nthe complete transaction data.\n\nDue to external factors in banking processes, on rare occasions this\nevent may not be triggered. Separate `TRANSACTION_DELETED` and\n`TRANSACTION_CREATED` events will be received in its place.\n\n**`TRANSACTION_DELETED`**\n\nTriggered whenever a `HELD` transaction is deleted from Up. This\ngenerally occurs for example when a hotel deposit is returned. This\nevent includes a `transaction` relationship that provides the unique\nidentifier for the transaction, however no link is provided to the\ntransaction within the Up API as it no longer exists.\n",
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/WebhookEventCallback"
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Successful Response"
+                  }
+                },
+                "x-up:example": {
+                  "type": "examplePayload",
+                  "payload": {
+                    "data": {
+                      "id": "c3e849cc-c467-4a1f-a95d-85ee4a087c8c",
+                      "type": "webhook-events",
+                      "attributes": {
+                        "eventType": "TRANSACTION_CREATED",
+                        "createdAt": "2020-07-21T11:03:10+10:00"
+                      },
+                      "relationships": {
+                        "webhook": {
+                          "links": {
+                            "related": "https://api.up.com.au/api/v1/webhooks/8e2c3a05-006f-4922-b39d-aa993977570f"
+                          },
+                          "data": {
+                            "type": "webhooks",
+                            "id": "8e2c3a05-006f-4922-b39d-aa993977570f"
+                          }
+                        },
+                        "transaction": {
+                          "links": {
+                            "related": "https://api.up.com.au/api/v1/transactions/5e1a4e12-0b45-4697-a807-bbc1c9153ca9"
+                          },
+                          "data": {
+                            "type": "transactions",
+                            "id": "5e1a4e12-0b45-4697-a807-bbc1c9153ca9"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhooks/{id}": {
+      "get": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Retrieve webhook",
+        "description": "Retrieve a specific webhook by providing its unique identifier.\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "97913112-faab-4bac-8820-326600e6ecaa",
+            "description": "The unique identifier for the webhook.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetWebhookResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:631gvCTToDsn8VNv"
+                },
+                "pathParameters": {
+                  "id": "5fcb472e-32c3-4500-95ba-b1bb9ffe8d00"
+                },
+                "queryParameters": {
+                },
+                "payload": null
+              },
+              "response": {
+                "data": {
+                  "id": "5fcb472e-32c3-4500-95ba-b1bb9ffe8d00",
+                  "type": "webhooks",
+                  "attributes": {
+                    "url": "http://example.com/webhook-2",
+                    "createdAt": "2020-07-20T11:03:10+10:00"
+                  },
+                  "links": {
+                    "self": "https://api.up.com.au/api/v1/webhooks/5fcb472e-32c3-4500-95ba-b1bb9ffe8d00"
+                  },
+                  "relationships": {
+                    "logs": {
+                      "links": {
+                        "related": "https://api.up.com.au/api/v1/webhooks/5fcb472e-32c3-4500-95ba-b1bb9ffe8d00/logs"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Delete webhook",
+        "description": "Delete a specific webhook by providing its unique identifier. Once\ndeleted, webhook events will no longer be sent to the configured URL.\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "de8147f1-976e-4464-b3fe-0aa581abc4c1",
+            "description": "The unique identifier for the webhook.\n"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:AWoCZkEgiVYMIiJ5"
+                },
+                "pathParameters": {
+                  "id": "b3540e8a-fe9e-4f5d-b51f-5f3883a921e2"
+                },
+                "queryParameters": {
+                },
+                "payload": null
+              },
+              "response": null
+            }
+          }
+        }
+      }
+    },
+    "/webhooks/{webhookId}/ping": {
+      "post": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Ping webhook",
+        "description": "Send a `PING` event to a webhook by providing its unique identifier.\nThis is useful for testing and debugging purposes. The event is delivered\nasynchronously and its data is returned in the response to this request.\n",
+        "parameters": [
+          {
+            "name": "webhookId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "d3236bf8-d3a8-4c62-b1df-31f57e61e018",
+            "description": "The unique identifier for the webhook.\n"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookEventCallback"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:qnLwlwNFvqJwoqP8"
+                },
+                "pathParameters": {
+                  "webhookId": "dc972cd7-fe16-4c84-bc06-6f788d33106d"
+                },
+                "queryParameters": {
+                },
+                "payload": null
+              },
+              "response": {
+                "data": {
+                  "id": "01e31c81-ecce-4c36-bfb8-0951655ae544",
+                  "type": "webhook-events",
+                  "attributes": {
+                    "eventType": "PING",
+                    "createdAt": "2020-07-21T11:03:11+10:00"
+                  },
+                  "relationships": {
+                    "webhook": {
+                      "links": {
+                        "related": "https://api.up.com.au/api/v1/webhooks/dc972cd7-fe16-4c84-bc06-6f788d33106d"
+                      },
+                      "data": {
+                        "type": "webhooks",
+                        "id": "dc972cd7-fe16-4c84-bc06-6f788d33106d"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhooks/{webhookId}/logs": {
+      "get": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "List webhook logs",
+        "description": "Retrieve a list of delivery logs for a webhook by providing its unique\nidentifier. This is useful for analysis and debugging purposes. The\nreturned list is [paginated](#pagination) and can be scrolled by\nfollowing the `next` and `prev` links where present. Results are ordered\nnewest first to oldest last. Logs may be automatically purged after a\nperiod of time.\n",
+        "parameters": [
+          {
+            "name": "webhookId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "7f574ffd-61da-473c-be29-fcbfd3fefa11",
+            "description": "The unique identifier for the webhook.\n"
+          },
+          {
+            "name": "page[size]",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "example": "?page[size]=30",
+            "description": "The number of records to return in each page.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListWebhookDeliveryLogsResponse"
+                }
+              }
+            },
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:qzYaUlb6GydgJoGO"
+                },
+                "pathParameters": {
+                  "webhookId": "ec7a9818-88a5-42d4-af04-3d8168fd0b94"
+                },
+                "queryParameters": {
+                  "page[size]": 1
+                },
+                "payload": null
+              },
+              "response": {
+                "data": [
+                  {
+                    "id": "ba2b3ffa-84fb-43d4-8e87-e7167339d0a0",
+                    "type": "webhook-delivery-logs",
+                    "attributes": {
+                      "request": {
+                        "body": "{\"data\":{\"id\":\"03ae55e7-6239-45ce-9f28-3e798e5f0b9d\",\"type\":\"webhook-events\",\"attributes\":{\"eventType\":\"TRANSACTION_CREATED\",\"createdAt\":\"2020-07-20T11:04:12+10:00\"},\"relationships\":{\"webhook\":{\"links\":{\"related\":\"https://api.up.com.au/api/v1/webhooks/ec7a9818-88a5-42d4-af04-3d8168fd0b94\"},\"data\":{\"type\":\"webhooks\",\"id\":\"ec7a9818-88a5-42d4-af04-3d8168fd0b94\"}},\"transaction\":{\"links\":{\"related\":\"https://api.up.com.au/api/v1/transactions/de02d587-316d-4449-9295-4d65291e0b45\"},\"data\":{\"type\":\"transactions\",\"id\":\"de02d587-316d-4449-9295-4d65291e0b45\"}}}}}"
+                      },
+                      "response": {
+                        "statusCode": 200,
+                        "body": "{\"ok\":true}"
+                      },
+                      "deliveryStatus": "DELIVERED",
+                      "createdAt": "2020-07-20T11:04:12+10:00"
+                    },
+                    "relationships": {
+                      "webhookEvent": {
+                        "data": {
+                          "type": "webhook-events",
+                          "id": "03ae55e7-6239-45ce-9f28-3e798e5f0b9d"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "links": {
+                  "prev": null,
+                  "next": "https://api.up.com.au/api/v1/webhooks/ec7a9818-88a5-42d4-af04-3d8168fd0b94/logs?page%5Bafter%5D=WyIyMDIwLTA3LTIwVDAxOjA0OjEyLjIzOTk1MDAwMFoiLCJiYTJiM2ZmYS04NGZiLTQzZDQtOGU4Ny1lNzE2NzMzOWQwYTAiXQ%3D%3D&page%5Bsize%5D=1"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

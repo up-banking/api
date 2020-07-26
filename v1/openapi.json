@@ -600,6 +600,10 @@
                 "type": "string",
                 "description": "The URL that this webhook is configured to `POST` events to.\n"
               },
+              "secretKey": {
+                "type": "string",
+                "description": "A shared secret key used to sign all webhook events sent to the\nconfigured webhook URL. This field is returned only once, upon the\ninitial creation of the webhook. If lost, create a new webhook and\ndelete this webhook.\n\nThe webhook URL receives a request with a\n`X-Up-Authenticity-Signature` header, which is the SHA-256 HMAC of\nthe entire raw request body signed using this `secretKey`. It is\nadvised to compute and check this signature to verify the\nauthenticity of requests sent to the webhook URL. See\n[Handling webhook events](#callback_post_webhookURL) for full\ndetails.\n"
+              },
               "createdAt": {
                 "type": "string",
                 "format": "date-time",
@@ -1147,7 +1151,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:rudwoQwrTslKsOlD"
+                  "Authorization": "Bearer up:demo:GTiXmHNvLxeQXO0c"
                 },
                 "pathParameters": {
                 },
@@ -1159,7 +1163,7 @@
               "response": {
                 "data": [
                   {
-                    "id": "2dfc759b-7fbe-4647-8e0d-0912eb52d5dc",
+                    "id": "c12661ab-a047-4b81-a4a5-2ca1f37a5d18",
                     "type": "accounts",
                     "attributes": {
                       "displayName": "Up Account",
@@ -1169,15 +1173,15 @@
                         "value": "1.00",
                         "valueInBaseUnits": 100
                       },
-                      "createdAt": "2020-07-21T11:03:02+10:00"
+                      "createdAt": "2020-07-24T12:49:15+10:00"
                     },
                     "links": {
-                      "self": "https://api.up.com.au/api/v1/accounts/2dfc759b-7fbe-4647-8e0d-0912eb52d5dc"
+                      "self": "https://api.up.com.au/api/v1/accounts/c12661ab-a047-4b81-a4a5-2ca1f37a5d18"
                     },
                     "relationships": {
                       "transactions": {
                         "links": {
-                          "related": "https://api.up.com.au/api/v1/accounts/2dfc759b-7fbe-4647-8e0d-0912eb52d5dc/transactions"
+                          "related": "https://api.up.com.au/api/v1/accounts/c12661ab-a047-4b81-a4a5-2ca1f37a5d18/transactions"
                         }
                       }
                     }
@@ -1185,7 +1189,7 @@
                 ],
                 "links": {
                   "prev": null,
-                  "next": "https://api.up.com.au/api/v1/accounts?page%5Bafter%5D=WyIyMDIwLTA3LTIxVDAxOjAzOjAyLjcwNTUxODAwMFoiLCIyZGZjNzU5Yi03ZmJlLTQ2NDctOGUwZC0wOTEyZWI1MmQ1ZGMiXQ%3D%3D&page%5Bsize%5D=1"
+                  "next": "https://api.up.com.au/api/v1/accounts?page%5Bafter%5D=WyIyMDIwLTA3LTI0VDAyOjQ5OjE1LjAzOTk1OTAwMFoiLCJjMTI2NjFhYi1hMDQ3LTRiODEtYTRhNS0yY2ExZjM3YTVkMTgiXQ%3D%3D&page%5Bsize%5D=1"
                 }
               }
             }
@@ -1208,7 +1212,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "c562c52e-7ead-4f09-bf73-bb10f6af8212",
+            "example": "0750ec03-46f7-4622-8bed-ddfa2615a774",
             "description": "The unique identifier for the account.\n"
           }
         ],
@@ -1226,10 +1230,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:bZpaUqS6rJ5mjFCj"
+                  "Authorization": "Bearer up:demo:YKzGSkLDgeECMBpV"
                 },
                 "pathParameters": {
-                  "id": "1d0b7dc8-f39d-4572-aa32-3409afc70640"
+                  "id": "172e4119-c273-4d50-92a0-fc1abb016be9"
                 },
                 "queryParameters": {
                 },
@@ -1237,7 +1241,7 @@
               },
               "response": {
                 "data": {
-                  "id": "1d0b7dc8-f39d-4572-aa32-3409afc70640",
+                  "id": "172e4119-c273-4d50-92a0-fc1abb016be9",
                   "type": "accounts",
                   "attributes": {
                     "displayName": "Savings",
@@ -1247,15 +1251,15 @@
                       "value": "125.36",
                       "valueInBaseUnits": 12536
                     },
-                    "createdAt": "2020-07-21T11:03:03+10:00"
+                    "createdAt": "2020-07-24T12:49:16+10:00"
                   },
                   "links": {
-                    "self": "https://api.up.com.au/api/v1/accounts/1d0b7dc8-f39d-4572-aa32-3409afc70640"
+                    "self": "https://api.up.com.au/api/v1/accounts/172e4119-c273-4d50-92a0-fc1abb016be9"
                   },
                   "relationships": {
                     "transactions": {
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/accounts/1d0b7dc8-f39d-4572-aa32-3409afc70640/transactions"
+                        "related": "https://api.up.com.au/api/v1/accounts/172e4119-c273-4d50-92a0-fc1abb016be9/transactions"
                       }
                     }
                   }
@@ -1287,7 +1291,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:RMweL0WfvIGfPaqw"
+                  "Authorization": "Bearer up:demo:7nxEjaSaHuAnplx6"
                 },
                 "pathParameters": {
                 },
@@ -1297,7 +1301,7 @@
               },
               "response": {
                 "meta": {
-                  "id": "00eff8d7-7455-484d-8131-b0dbc2034e93",
+                  "id": "9d93f8a9-4f32-4de5-b44c-d86640c1a93b",
                   "statusEmoji": "⚡️"
                 }
               }
@@ -1392,7 +1396,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:FcHGjM5RmVXIm53A"
+                  "Authorization": "Bearer up:demo:w86fpAUihTpLmAxd"
                 },
                 "pathParameters": {
                 },
@@ -1404,7 +1408,7 @@
               "response": {
                 "data": [
                   {
-                    "id": "723841e3-2a53-4228-8adb-1a9caa7c7482",
+                    "id": "451d1a30-e0a2-44b6-ab91-4431b9ac3d2b",
                     "type": "transactions",
                     "attributes": {
                       "status": "SETTLED",
@@ -1420,20 +1424,20 @@
                         "valueInBaseUnits": -5998
                       },
                       "foreignAmount": null,
-                      "settledAt": "2020-07-20T04:01:05+10:00",
-                      "createdAt": "2020-07-20T04:01:05+10:00"
+                      "settledAt": "2020-07-23T05:47:18+10:00",
+                      "createdAt": "2020-07-23T05:47:18+10:00"
                     },
                     "links": {
-                      "self": "https://api.up.com.au/api/v1/transactions/723841e3-2a53-4228-8adb-1a9caa7c7482"
+                      "self": "https://api.up.com.au/api/v1/transactions/451d1a30-e0a2-44b6-ab91-4431b9ac3d2b"
                     },
                     "relationships": {
                       "account": {
                         "links": {
-                          "related": "https://api.up.com.au/api/v1/accounts/7e590f60-4dc6-4a51-aa67-7127d7394213"
+                          "related": "https://api.up.com.au/api/v1/accounts/a06b1512-ea6a-4ea4-bfeb-e992981fcc37"
                         },
                         "data": {
                           "type": "accounts",
-                          "id": "7e590f60-4dc6-4a51-aa67-7127d7394213"
+                          "id": "a06b1512-ea6a-4ea4-bfeb-e992981fcc37"
                         }
                       }
                     }
@@ -1441,7 +1445,7 @@
                 ],
                 "links": {
                   "prev": null,
-                  "next": "https://api.up.com.au/api/v1/transactions?page%5Bafter%5D=WyIyMDIwLTA3LTE5VDE4OjAxOjA1LjI4OTIzMTAwMFoiLCI3MjM4NDFlMy0yYTUzLTQyMjgtOGFkYi0xYTljYWE3Yzc0ODIiXQ%3D%3D&page%5Bsize%5D=1"
+                  "next": "https://api.up.com.au/api/v1/transactions?page%5Bafter%5D=WyIyMDIwLTA3LTIyVDE5OjQ3OjE4Ljc0NTcwNDAwMFoiLCI0NTFkMWEzMC1lMGEyLTQ0YjYtYWI5MS00NDMxYjlhYzNkMmIiXQ%3D%3D&page%5Bsize%5D=1"
                 }
               }
             }
@@ -1464,7 +1468,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "27ced9a1-3dce-457d-b155-82db015cccfb",
+            "example": "d92bedae-e087-470a-9b17-055fe0e3e361",
             "description": "The unique identifier for the transaction.\n"
           }
         ],
@@ -1482,10 +1486,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:sLjYYAPeUGBoAZso"
+                  "Authorization": "Bearer up:demo:JQAoIAmtcaeaFada"
                 },
                 "pathParameters": {
-                  "id": "625b513d-3f5c-4354-9315-45c076e3da71"
+                  "id": "a11f435e-0ea3-45e7-bac8-50526d859620"
                 },
                 "queryParameters": {
                 },
@@ -1493,7 +1497,7 @@
               },
               "response": {
                 "data": {
-                  "id": "625b513d-3f5c-4354-9315-45c076e3da71",
+                  "id": "a11f435e-0ea3-45e7-bac8-50526d859620",
                   "type": "transactions",
                   "attributes": {
                     "status": "SETTLED",
@@ -1531,20 +1535,20 @@
                       "value": "-1053698.77",
                       "valueInBaseUnits": -105369877
                     },
-                    "settledAt": "2020-07-16T09:00:07+10:00",
-                    "createdAt": "2020-07-18T04:00:00+10:00"
+                    "settledAt": "2020-07-19T10:46:21+10:00",
+                    "createdAt": "2020-07-21T04:00:00+10:00"
                   },
                   "links": {
-                    "self": "https://api.up.com.au/api/v1/transactions/625b513d-3f5c-4354-9315-45c076e3da71"
+                    "self": "https://api.up.com.au/api/v1/transactions/a11f435e-0ea3-45e7-bac8-50526d859620"
                   },
                   "relationships": {
                     "account": {
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/accounts/4d4f63b9-8fb1-45e9-995a-d1c065906938"
+                        "related": "https://api.up.com.au/api/v1/accounts/2000553b-7475-49f7-95ae-8331c7d1817f"
                       },
                       "data": {
                         "type": "accounts",
-                        "id": "4d4f63b9-8fb1-45e9-995a-d1c065906938"
+                        "id": "2000553b-7475-49f7-95ae-8331c7d1817f"
                       }
                     }
                   }
@@ -1570,7 +1574,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "0bdfeac4-e759-43e9-9e6a-a2c31735556c",
+            "example": "438d699e-7340-41aa-928e-bec91fcc653e",
             "description": "The unique identifier for the account.\n"
           },
           {
@@ -1620,10 +1624,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:gHP7oKvCAXc30PNv"
+                  "Authorization": "Bearer up:demo:9oDtMEpEmffxkTtL"
                 },
                 "pathParameters": {
-                  "accountId": "dff6f632-b242-4298-9c77-e33689d6c6c8"
+                  "accountId": "7acbef77-4811-4bdf-9a39-13dca58f1672"
                 },
                 "queryParameters": {
                   "page[size]": 1
@@ -1633,7 +1637,7 @@
               "response": {
                 "data": [
                   {
-                    "id": "4fa1a8b0-35a3-41ce-95f8-2705f6ff0566",
+                    "id": "ff867a41-2062-4ea6-a11a-729fd95879d8",
                     "type": "transactions",
                     "attributes": {
                       "status": "SETTLED",
@@ -1649,20 +1653,20 @@
                         "valueInBaseUnits": -5998
                       },
                       "foreignAmount": null,
-                      "settledAt": "2020-07-20T04:01:07+10:00",
-                      "createdAt": "2020-07-20T04:01:07+10:00"
+                      "settledAt": "2020-07-23T05:47:21+10:00",
+                      "createdAt": "2020-07-23T05:47:21+10:00"
                     },
                     "links": {
-                      "self": "https://api.up.com.au/api/v1/transactions/4fa1a8b0-35a3-41ce-95f8-2705f6ff0566"
+                      "self": "https://api.up.com.au/api/v1/transactions/ff867a41-2062-4ea6-a11a-729fd95879d8"
                     },
                     "relationships": {
                       "account": {
                         "links": {
-                          "related": "https://api.up.com.au/api/v1/accounts/dff6f632-b242-4298-9c77-e33689d6c6c8"
+                          "related": "https://api.up.com.au/api/v1/accounts/7acbef77-4811-4bdf-9a39-13dca58f1672"
                         },
                         "data": {
                           "type": "accounts",
-                          "id": "dff6f632-b242-4298-9c77-e33689d6c6c8"
+                          "id": "7acbef77-4811-4bdf-9a39-13dca58f1672"
                         }
                       }
                     }
@@ -1670,7 +1674,7 @@
                 ],
                 "links": {
                   "prev": null,
-                  "next": "https://api.up.com.au/api/v1/accounts/dff6f632-b242-4298-9c77-e33689d6c6c8/transactions?page%5Bafter%5D=WyIyMDIwLTA3LTE5VDE4OjAxOjA3Ljg5NDA5NDAwMFoiLCI0ZmExYThiMC0zNWEzLTQxY2UtOTVmOC0yNzA1ZjZmZjA1NjYiXQ%3D%3D&page%5Bsize%5D=1"
+                  "next": "https://api.up.com.au/api/v1/accounts/7acbef77-4811-4bdf-9a39-13dca58f1672/transactions?page%5Bafter%5D=WyIyMDIwLTA3LTIyVDE5OjQ3OjIxLjk5MDgwMDAwMFoiLCJmZjg2N2E0MS0yMDYyLTRlYTYtYTExYS03MjlmZDk1ODc5ZDgiXQ%3D%3D&page%5Bsize%5D=1"
                 }
               }
             }
@@ -1711,7 +1715,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:gSDXwk92n8Tr6417"
+                  "Authorization": "Bearer up:demo:Ya57LuRhnjz7J2Fy"
                 },
                 "pathParameters": {
                 },
@@ -1723,19 +1727,19 @@
               "response": {
                 "data": [
                   {
-                    "id": "3fc6cb11-ea57-4c8d-9ccf-005c67ed0d91",
+                    "id": "0b83dde5-eb67-41e7-8ba4-5ae87c43bd01",
                     "type": "webhooks",
                     "attributes": {
                       "url": "http://example.com/webhook-1",
-                      "createdAt": "2020-07-19T11:03:08+10:00"
+                      "createdAt": "2020-07-22T12:49:22+10:00"
                     },
                     "links": {
-                      "self": "https://api.up.com.au/api/v1/webhooks/3fc6cb11-ea57-4c8d-9ccf-005c67ed0d91"
+                      "self": "https://api.up.com.au/api/v1/webhooks/0b83dde5-eb67-41e7-8ba4-5ae87c43bd01"
                     },
                     "relationships": {
                       "logs": {
                         "links": {
-                          "related": "https://api.up.com.au/api/v1/webhooks/3fc6cb11-ea57-4c8d-9ccf-005c67ed0d91/logs"
+                          "related": "https://api.up.com.au/api/v1/webhooks/0b83dde5-eb67-41e7-8ba4-5ae87c43bd01/logs"
                         }
                       }
                     }
@@ -1743,7 +1747,7 @@
                 ],
                 "links": {
                   "prev": null,
-                  "next": "https://api.up.com.au/api/v1/webhooks?page%5Bafter%5D=WyIyMDIwLTA3LTE5VDAxOjAzOjA4LjgyOTExMzAwMFoiLCIzZmM2Y2IxMS1lYTU3LTRjOGQtOWNjZi0wMDVjNjdlZDBkOTEiXQ%3D%3D&page%5Bsize%5D=1"
+                  "next": "https://api.up.com.au/api/v1/webhooks?page%5Bafter%5D=WyIyMDIwLTA3LTIyVDAyOjQ5OjIyLjg3MDAxMjAwMFoiLCIwYjgzZGRlNS1lYjY3LTQxZTctOGJhNC01YWU4N2M0M2JkMDEiXQ%3D%3D&page%5Bsize%5D=1"
                 }
               }
             }
@@ -1755,7 +1759,7 @@
           "Webhooks"
         ],
         "summary": "Create webhook",
-        "description": "Create a new webhook with a given URL. The URL will receive webhook\nevents as JSON-encoded `POST` requests. The URL must respond with a HTTP\n`200` status on success. Event delivery is retried with exponential\nbackoff if the URL is unreachable or it does not respond with a `200`\nstatus. See [Handling webhook events](#callback_post_webhookURL) for more\ndetails. It is probably a good idea to test the webhook by\n[sending it a `PING` event](#post_webhooks_webhookId_ping) after creating\nit.\n",
+        "description": "Create a new webhook with a given URL. The URL will receive webhook\nevents as JSON-encoded `POST` requests. The URL must respond with a HTTP\n`200` status on success.\n\nEvent delivery is retried with exponential backoff if the URL is\nunreachable or it does not respond with a `200` status. The response\nincludes a `secretKey` attribute, which is used to sign requests sent to\nthe webhook URL. It will not be returned from any other endpoints within\nthe Up API. If the `secretKey` is lost, simply create a new webhook with\nthe same URL, capture its `secretKey` and then delete the original\nwebhook. See [Handling webhook events](#callback_post_webhookURL) for\ndetails on how to process webhook events.\n\nIt is probably a good idea to test the webhook by\n[sending it a `PING` event](#post_webhooks_webhookId_ping) after creating\nit.\n",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1779,7 +1783,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:DJ9FVroSJ3QcR4BA",
+                  "Authorization": "Bearer up:demo:0EqyLJD5RaZzLApO",
                   "Content-Type": "application/json"
                 },
                 "pathParameters": {
@@ -1796,19 +1800,20 @@
               },
               "response": {
                 "data": {
-                  "id": "33e83e32-a019-402e-b770-59aaa9c0e8d9",
+                  "id": "e342f383-683e-428e-befa-e688360c914a",
                   "type": "webhooks",
                   "attributes": {
                     "url": "http://example.com/webhook",
-                    "createdAt": "2020-07-21T11:03:09+10:00"
+                    "secretKey": "6aY2wnpg90eBF5gT5UmJt6rb7vOrsRb4ayw1pvzb74Nt6IKP7LqtjsxR33OV0S0s",
+                    "createdAt": "2020-07-24T12:49:23+10:00"
                   },
                   "links": {
-                    "self": "https://api.up.com.au/api/v1/webhooks/33e83e32-a019-402e-b770-59aaa9c0e8d9"
+                    "self": "https://api.up.com.au/api/v1/webhooks/e342f383-683e-428e-befa-e688360c914a"
                   },
                   "relationships": {
                     "logs": {
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/webhooks/33e83e32-a019-402e-b770-59aaa9c0e8d9/logs"
+                        "related": "https://api.up.com.au/api/v1/webhooks/e342f383-683e-428e-befa-e688360c914a/logs"
                       }
                     }
                   }
@@ -1822,7 +1827,19 @@
             "{webhookURL}": {
               "post": {
                 "summary": "Handling webhook events",
-                "description": "Once you have created a webhook in the Up API, events are sent to the\nwebhook’s configured URL as JSON-encoded `POST` requests. The webhook\nURL must respond with a HTTP `200` status on success.\n\nIt is important that the URL responds in a timely manner. If the URL\ntakes too long to respond (currently 30s), the request will be timed\nout. For this reason it is strongly advised to avoid any heavy\nprocessing before a response has been returned from the URL. A common\nsolution to this problem is to use a message broker such as RabbitMQ\nto do the work asynchronously.\n\nEvent delivery is retried with exponential backoff in the case of any\nnon `200` response status, if the URL is unreachable, or if the request\nis timed out.\n\nRefer to the `eventType` attribute in order to determine what course of\naction to take when handling the event. The following event types are\ncurrently sent:\n\n**`PING`**\n\nManually triggered by calls to the webhook `ping` endpoint. Used for\ntesting and debugging purposes.\n\n**`TRANSACTION_CREATED`**\n\nTriggered whenever a new transaction is created in Up. This event\nincludes a `transaction` relationship that provides the unique\nidentifier for the transaction and a link to the transaction within the\nUp API. This link should be used to retrieve the complete transaction\ndata.\n\n**`TRANSACTION_SETTLED`**\n\nTriggered whenever a transaction transitions from the `HELD` status to\nthe `SETTLED` status. This event includes a `transaction` relationship\nthat provides the unique identifier for the transaction and a link to\nthe transaction within the Up API. This link should be used to retrieve\nthe complete transaction data.\n\nDue to external factors in banking processes, on rare occasions this\nevent may not be triggered. Separate `TRANSACTION_DELETED` and\n`TRANSACTION_CREATED` events will be received in its place.\n\n**`TRANSACTION_DELETED`**\n\nTriggered whenever a `HELD` transaction is deleted from Up. This\ngenerally occurs for example when a hotel deposit is returned. This\nevent includes a `transaction` relationship that provides the unique\nidentifier for the transaction, however no link is provided to the\ntransaction within the Up API as it no longer exists.\n",
+                "description": "Once you have created a webhook in the Up API, events are sent to the\nwebhook’s configured URL as JSON-encoded `POST` requests. The webhook\nURL must respond with a HTTP `200` status on success.\n\nIt is important that the URL responds in a timely manner. If the URL\ntakes too long to respond (currently 30s), the request will be timed\nout. For this reason it is strongly advised to avoid any heavy\nprocessing before a response has been returned from the URL. A common\nsolution to this problem is to use a message broker such as RabbitMQ\nto do the work asynchronously.\n\nEvent delivery is retried with exponential backoff in the case of any\nnon `200` response status, if the URL is unreachable, or if the request\nis timed out.\n\nRefer to the `eventType` attribute in order to determine what course of\naction to take when handling the event. The following event types are\ncurrently sent:\n\n**`PING`**\n\nManually triggered by calls to the webhook `ping` endpoint. Used for\ntesting and debugging purposes.\n\n**`TRANSACTION_CREATED`**\n\nTriggered whenever a new transaction is created in Up. This event\nincludes a `transaction` relationship that provides the unique\nidentifier for the transaction and a link to the transaction within the\nUp API. This link should be used to retrieve the complete transaction\ndata.\n\n**`TRANSACTION_SETTLED`**\n\nTriggered whenever a transaction transitions from the `HELD` status to\nthe `SETTLED` status. This event includes a `transaction` relationship\nthat provides the unique identifier for the transaction and a link to\nthe transaction within the Up API. This link should be used to retrieve\nthe complete transaction data.\n\nDue to external factors in banking processes, on rare occasions this\nevent may not be triggered. Separate `TRANSACTION_DELETED` and\n`TRANSACTION_CREATED` events will be received in its place.\n\n**`TRANSACTION_DELETED`**\n\nTriggered whenever a `HELD` transaction is deleted from Up. This\ngenerally occurs for example when a hotel deposit is returned. This\nevent includes a `transaction` relationship that provides the unique\nidentifier for the transaction, however no link is provided to the\ntransaction within the Up API as it no longer exists.\n\n## Securing Webhook Event Handlers\n\nIncoming webhook event requests include a `X-Up-Authenticity-Signature`\nheader, which can be used to verify that the event was sent by Up.\nVerification of the signature requires knowledge of the shared\n`secretKey` that was returned upon creation of the webhook. This key is\nknown only to your application and to Up.\n\nThe verification process involves:\n\n1. Taking the raw, unparsed webhook event request body.\n2. Computing the SHA-256 HMAC signature of the request body, using the\n   shared `secretKey`.\n3. Comparing the computed HMAC signature with the value of the\n   `X-Up-Authenticity-Signature` header.\n\nIf the computed SHA-256 HMAC signature matches the\n`X-Up-Authenticity-Signature` header, the request is valid.\n\nA few language-specific examples follow.\n\n**Ruby**:\n\nThis example uses the Ruby on Rails framework.\n\n```ruby\nrequire 'openssl'\n\ndef handle_webhook_event\n  received_signature =\n    request.headers['X-Up-Authenticity-Signature']\n\n  signature = OpenSSL::HMAC.hexdigest(\n    'SHA256',\n    secret_key,\n    request.raw_post,\n  )\n\n  if Rack::Utils.secure_compare(received_signature, signature)\n    # Process webhook event\n  end\nend\n```\n\n**PHP**:\n\nThis example uses the Laravel framework.\n\n```php\npublic function handleWebhookEvent(Request $request) {\n    $received_signature = $request->header(\n        'X-Up-Authenticity-Signature',\n    );\n    $raw_body = file_get_contents('php://input');\n    $signature = hash_hmac('sha256', $raw_body, $secret_key);\n\n    if (hash_equals($signature, $received_signature)) {\n        // Process webhook event\n    }\n}\n```\n\n**Go**:\n\nThis example is in plain Go.\n\n```go\nimport (\n    \"crypto/hmac\"\n    \"crypto/sha256\"\n    \"encoding/hex\"\n    \"io\"\n    \"net/http\"\n)\n\nfunc handleWebhookEvent(w http.ResponseWriter, r *http.Request) {\n    received_signature, _ := hex.DecodeString(\n        r.Header.Get(\"X-Up-Authenticity-Signature\"),\n    )\n\n    mac := hmac.New(sha256.New, secret_key)\n    io.Copy(mac, r.Body)\n    signature := mac.Sum(nil)\n\n    if hmac.Equal(signature, received_signature)\n        // Process webhook event\n    }\n}\n```\n\nIf the `secretKey` for a webhook is lost, simply create a new webhook\nwith the same URL, capture the returned `secretKey` and delete the\noriginal webhook.\n",
+                "parameters": [
+                  {
+                    "name": "X-Up-Authenticity-Signature",
+                    "in": "header",
+                    "schema": {
+                      "type": "string"
+                    },
+                    "required": false,
+                    "example": "317c0a8ea81df3f53c1d2aef5dcbf60492d0df557197b2990e71daa4a0693364",
+                    "description": "The SHA-256 HMAC signature of the raw request body, signed using\nthe `secretKey` of the webhook.\n"
+                  }
+                ],
                 "requestBody": {
                   "content": {
                     "application/json": {
@@ -1841,29 +1858,29 @@
                   "type": "examplePayload",
                   "payload": {
                     "data": {
-                      "id": "c3e849cc-c467-4a1f-a95d-85ee4a087c8c",
+                      "id": "685d1cb2-73fc-4de4-ae1e-49705175fc0e",
                       "type": "webhook-events",
                       "attributes": {
                         "eventType": "TRANSACTION_CREATED",
-                        "createdAt": "2020-07-21T11:03:10+10:00"
+                        "createdAt": "2020-07-24T12:49:24+10:00"
                       },
                       "relationships": {
                         "webhook": {
                           "links": {
-                            "related": "https://api.up.com.au/api/v1/webhooks/8e2c3a05-006f-4922-b39d-aa993977570f"
+                            "related": "https://api.up.com.au/api/v1/webhooks/d79d033f-f49f-4477-99ae-8c54d6f1ea8a"
                           },
                           "data": {
                             "type": "webhooks",
-                            "id": "8e2c3a05-006f-4922-b39d-aa993977570f"
+                            "id": "d79d033f-f49f-4477-99ae-8c54d6f1ea8a"
                           }
                         },
                         "transaction": {
                           "links": {
-                            "related": "https://api.up.com.au/api/v1/transactions/5e1a4e12-0b45-4697-a807-bbc1c9153ca9"
+                            "related": "https://api.up.com.au/api/v1/transactions/58bf0a55-8403-482b-a678-498788f425d2"
                           },
                           "data": {
                             "type": "transactions",
-                            "id": "5e1a4e12-0b45-4697-a807-bbc1c9153ca9"
+                            "id": "58bf0a55-8403-482b-a678-498788f425d2"
                           }
                         }
                       }
@@ -1891,7 +1908,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "97913112-faab-4bac-8820-326600e6ecaa",
+            "example": "c3aea7ac-2054-4fe4-b202-02151834516e",
             "description": "The unique identifier for the webhook.\n"
           }
         ],
@@ -1909,10 +1926,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:631gvCTToDsn8VNv"
+                  "Authorization": "Bearer up:demo:4aQDNwKH3RKGoPP4"
                 },
                 "pathParameters": {
-                  "id": "5fcb472e-32c3-4500-95ba-b1bb9ffe8d00"
+                  "id": "4a2f811b-8034-4e42-926a-d6d672b1630b"
                 },
                 "queryParameters": {
                 },
@@ -1920,19 +1937,19 @@
               },
               "response": {
                 "data": {
-                  "id": "5fcb472e-32c3-4500-95ba-b1bb9ffe8d00",
+                  "id": "4a2f811b-8034-4e42-926a-d6d672b1630b",
                   "type": "webhooks",
                   "attributes": {
                     "url": "http://example.com/webhook-2",
-                    "createdAt": "2020-07-20T11:03:10+10:00"
+                    "createdAt": "2020-07-23T12:49:24+10:00"
                   },
                   "links": {
-                    "self": "https://api.up.com.au/api/v1/webhooks/5fcb472e-32c3-4500-95ba-b1bb9ffe8d00"
+                    "self": "https://api.up.com.au/api/v1/webhooks/4a2f811b-8034-4e42-926a-d6d672b1630b"
                   },
                   "relationships": {
                     "logs": {
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/webhooks/5fcb472e-32c3-4500-95ba-b1bb9ffe8d00/logs"
+                        "related": "https://api.up.com.au/api/v1/webhooks/4a2f811b-8034-4e42-926a-d6d672b1630b/logs"
                       }
                     }
                   }
@@ -1956,7 +1973,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "de8147f1-976e-4464-b3fe-0aa581abc4c1",
+            "example": "1fdcd9af-1992-4985-8d7d-248c3396430c",
             "description": "The unique identifier for the webhook.\n"
           }
         ],
@@ -1967,10 +1984,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:AWoCZkEgiVYMIiJ5"
+                  "Authorization": "Bearer up:demo:Kw3V4vs0iJrHyvQs"
                 },
                 "pathParameters": {
-                  "id": "b3540e8a-fe9e-4f5d-b51f-5f3883a921e2"
+                  "id": "3ada66cb-1d57-46b9-b0b5-0f1b0ac99786"
                 },
                 "queryParameters": {
                 },
@@ -1997,7 +2014,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "d3236bf8-d3a8-4c62-b1df-31f57e61e018",
+            "example": "d39f2c00-e865-4fa1-87d2-89be265ea9f3",
             "description": "The unique identifier for the webhook.\n"
           }
         ],
@@ -2015,10 +2032,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:qnLwlwNFvqJwoqP8"
+                  "Authorization": "Bearer up:demo:WOIkAwQILqTVzdvI"
                 },
                 "pathParameters": {
-                  "webhookId": "dc972cd7-fe16-4c84-bc06-6f788d33106d"
+                  "webhookId": "fdf452c5-2b9c-41cf-a49a-5c1246a77076"
                 },
                 "queryParameters": {
                 },
@@ -2026,20 +2043,20 @@
               },
               "response": {
                 "data": {
-                  "id": "01e31c81-ecce-4c36-bfb8-0951655ae544",
+                  "id": "4b2e97bc-112f-446f-be59-0eb81c59f6b6",
                   "type": "webhook-events",
                   "attributes": {
                     "eventType": "PING",
-                    "createdAt": "2020-07-21T11:03:11+10:00"
+                    "createdAt": "2020-07-24T12:49:25+10:00"
                   },
                   "relationships": {
                     "webhook": {
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/webhooks/dc972cd7-fe16-4c84-bc06-6f788d33106d"
+                        "related": "https://api.up.com.au/api/v1/webhooks/fdf452c5-2b9c-41cf-a49a-5c1246a77076"
                       },
                       "data": {
                         "type": "webhooks",
-                        "id": "dc972cd7-fe16-4c84-bc06-6f788d33106d"
+                        "id": "fdf452c5-2b9c-41cf-a49a-5c1246a77076"
                       }
                     }
                   }
@@ -2065,7 +2082,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "7f574ffd-61da-473c-be29-fcbfd3fefa11",
+            "example": "79dbc376-df06-4cde-9b14-479de31e5207",
             "description": "The unique identifier for the webhook.\n"
           },
           {
@@ -2093,10 +2110,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:qzYaUlb6GydgJoGO"
+                  "Authorization": "Bearer up:demo:4yb1vb3h1LHYgmY6"
                 },
                 "pathParameters": {
-                  "webhookId": "ec7a9818-88a5-42d4-af04-3d8168fd0b94"
+                  "webhookId": "b66b465c-ef7c-4387-8dab-7492814c2c4b"
                 },
                 "queryParameters": {
                   "page[size]": 1
@@ -2106,24 +2123,24 @@
               "response": {
                 "data": [
                   {
-                    "id": "ba2b3ffa-84fb-43d4-8e87-e7167339d0a0",
+                    "id": "f447e87e-e3ff-4c89-970a-84f7d26e2f14",
                     "type": "webhook-delivery-logs",
                     "attributes": {
                       "request": {
-                        "body": "{\"data\":{\"id\":\"03ae55e7-6239-45ce-9f28-3e798e5f0b9d\",\"type\":\"webhook-events\",\"attributes\":{\"eventType\":\"TRANSACTION_CREATED\",\"createdAt\":\"2020-07-20T11:04:12+10:00\"},\"relationships\":{\"webhook\":{\"links\":{\"related\":\"https://api.up.com.au/api/v1/webhooks/ec7a9818-88a5-42d4-af04-3d8168fd0b94\"},\"data\":{\"type\":\"webhooks\",\"id\":\"ec7a9818-88a5-42d4-af04-3d8168fd0b94\"}},\"transaction\":{\"links\":{\"related\":\"https://api.up.com.au/api/v1/transactions/de02d587-316d-4449-9295-4d65291e0b45\"},\"data\":{\"type\":\"transactions\",\"id\":\"de02d587-316d-4449-9295-4d65291e0b45\"}}}}}"
+                        "body": "{\"data\":{\"id\":\"bb22130f-347c-4075-9b42-9539c28eb0ec\",\"type\":\"webhook-events\",\"attributes\":{\"eventType\":\"TRANSACTION_CREATED\",\"createdAt\":\"2020-07-23T12:50:26+10:00\"},\"relationships\":{\"webhook\":{\"links\":{\"related\":\"https://api.up.com.au/api/v1/webhooks/b66b465c-ef7c-4387-8dab-7492814c2c4b\"},\"data\":{\"type\":\"webhooks\",\"id\":\"b66b465c-ef7c-4387-8dab-7492814c2c4b\"}},\"transaction\":{\"links\":{\"related\":\"https://api.up.com.au/api/v1/transactions/9df58df6-f306-4eec-8222-49dccdbcd091\"},\"data\":{\"type\":\"transactions\",\"id\":\"9df58df6-f306-4eec-8222-49dccdbcd091\"}}}}}"
                       },
                       "response": {
                         "statusCode": 200,
                         "body": "{\"ok\":true}"
                       },
                       "deliveryStatus": "DELIVERED",
-                      "createdAt": "2020-07-20T11:04:12+10:00"
+                      "createdAt": "2020-07-23T12:50:26+10:00"
                     },
                     "relationships": {
                       "webhookEvent": {
                         "data": {
                           "type": "webhook-events",
-                          "id": "03ae55e7-6239-45ce-9f28-3e798e5f0b9d"
+                          "id": "bb22130f-347c-4075-9b42-9539c28eb0ec"
                         }
                       }
                     }
@@ -2131,7 +2148,7 @@
                 ],
                 "links": {
                   "prev": null,
-                  "next": "https://api.up.com.au/api/v1/webhooks/ec7a9818-88a5-42d4-af04-3d8168fd0b94/logs?page%5Bafter%5D=WyIyMDIwLTA3LTIwVDAxOjA0OjEyLjIzOTk1MDAwMFoiLCJiYTJiM2ZmYS04NGZiLTQzZDQtOGU4Ny1lNzE2NzMzOWQwYTAiXQ%3D%3D&page%5Bsize%5D=1"
+                  "next": "https://api.up.com.au/api/v1/webhooks/b66b465c-ef7c-4387-8dab-7492814c2c4b/logs?page%5Bafter%5D=WyIyMDIwLTA3LTIzVDAyOjUwOjI2LjUwNzUzMDAwMFoiLCJmNDQ3ZTg3ZS1lM2ZmLTRjODktOTcwYS04NGY3ZDI2ZTJmMTQiXQ%3D%3D&page%5Bsize%5D=1"
                 }
               }
             }

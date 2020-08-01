@@ -47,3 +47,6 @@ Tools designed to support OpenAPI specification files should ignore these
 fields. Currently we only include `x-up:example` but we anticipate adding new
 `x-up:` prefixed fields over time as our documentation capability evolves.
 
+## Examples
+
+You can find community provided examples in [EXAMPLES.md.](EXAMPLES.md)

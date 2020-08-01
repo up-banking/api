@@ -48,3 +48,11 @@ Created: 01/08/2020\
 Language/s: YAML, HomeAssistant (?)\
 Description:\
 Sensors for Home Assistant integration of Up Banking's API
+
+## Up Banking CLI
+Author: [@etopiei](https://github.com/etopiei)\
+Repo: https://github.com/etopiei/up-cli\
+Created: 29/07/2020\
+Language/s: Rust\
+Description:\
+This is a simple command line program to interact with the Up Banking API.

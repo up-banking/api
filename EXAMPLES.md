@@ -14,3 +14,11 @@ Created: 01/08/2020\
 Language/s: YAML, HomeAssistant (?)\
 Description:\
 Sensors for Home Assistant integration of Up Banking's API
+
+## up web
+Author: [@salamagd](https://github.com/salamagd)\
+Repo: https://github.com/salamagd/up-web \
+Created: 28/07/2020\
+Language/s: JavaScript, CSS\
+Description:\
+A demo app which can be used to view your Up Banking accounts and transactions in a web browser.

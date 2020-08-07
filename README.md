@@ -1,4 +1,6 @@
-# Up API
+# ⚡️ Up API
+
+Let’s **hack** on _banking_ together!
 
 Calling all makers, creators, hackers, and hobbyists.
 Welcome to the first stage of [Up’s](https://up.com.au) API: a beta release
@@ -7,18 +9,23 @@ can request past transactions or set up webhooks to receive real time events
 when new transactions hit your account. It’s new, exciting and just the
 beginning.
 
+<div align="center">
+  <img alt="Up API" src="./assets/up-api.jpg" />
+</div>
+
 ## Links
 
-* [The Up Website](https://up.com.au)
-* [API Documentation](https://developer.up.com.au)
-* [API Issues and Support](https://github.com/up-banking/api/issues)
+* 🕶 [The Up Website](https://up.com.au)
+* 📖 [API Documentation](https://developer.up.com.au)
+* 🕵️ [API Issues and Support](https://github.com/up-banking/api/issues)
+* 🚀 [API Changelog](https://github.com/up-banking/api/issues/31)
 
 Please ensure you keep any personal information out of issues submitted on this
 repository.
 
 ## Getting Started
 
-The Up API is currently in beta. Many features you would expect are notably
+The Up API is currently in beta 🔧. Many features you would expect are notably
 absent but will be added over time. In this early phase access is limited to
 personal use only.
 
@@ -29,8 +36,8 @@ https://up.com.au to download the app and create a free account.
 Once you have an Up account, you can get your Personal Access Token at
 https://api.up.com.au.
 
-Head over to read the API documentation at https://developer.up.com.au once you
-have your access token.
+Head on over and read the API documentation at https://developer.up.com.au once
+you have your access token ❤️.
 
 ## The OpenAPI Specification
 

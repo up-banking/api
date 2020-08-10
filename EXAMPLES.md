@@ -31,3 +31,11 @@ Created: 28/07/2020\
 Language/s: Python\
 Description:\
 A Python wrapper for the newly released API for up.com.au
+
+## Up Banking CLI
+Author: [@etopiei](https://github.com/etopiei)\
+Repo: https://github.com/etopiei/up-cli \
+Created: 29/07/2020\
+Language/s: Rust\
+Description:\
+This is a simple command line program to interact with the Up Banking API.

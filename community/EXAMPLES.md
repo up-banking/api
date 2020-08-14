@@ -58,3 +58,12 @@ A Python wrapper for the newly released API for up.com.au
 **Languages:** Rust
 
 This is a simple command line program to interact with the Up Banking API.
+
+## UP Flow
+
+**Author:** [@JDsnyke](https://github.com/JDsnyke)\
+**Repository:** https://github.com/JDsnyke/UP-Flow \
+**Created:** 20/07/2020\
+**Languages:** Ruby
+
+Windows program for checking your recent balance using your banking API.

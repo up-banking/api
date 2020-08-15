@@ -41,6 +41,15 @@ Sensors for Home Assistant integration of Up Banking's API
 A demo app which can be used to view your Up Banking accounts and transactions
 in a web browser.
 
+## up-bank-api
+
+**Author:** [@jcwillox](https://github.com/jcwillox) \
+**Repository:** https://github.com/jcwillox/up-bank-api \
+**Created:** 15/08/2020 \
+**Languages:** Python
+
+A typed python client (API wrapper) for interacting with Up's banking API, also availiable on PyPI.
+
 ## upbankpy
 
 **Author:** [@alyssadev](https://github.com/alyssadev) \

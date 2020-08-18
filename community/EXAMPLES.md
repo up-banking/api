@@ -76,3 +76,13 @@ This is a simple command line program to interact with the Up Banking API.
 **Languages:** Ruby
 
 Windows program for checking your recent balance using your banking API.
+
+
+## Up Api web example
+
+**Author:** [@svnm](https://github.com/svnm)\
+**Repository:** https://github.com/svnm/up-api-web-example \
+**Created:** 20/07/2020\
+**Languages:** TypeScript
+
+Example web client using Up API.

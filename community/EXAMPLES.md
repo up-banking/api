@@ -86,3 +86,13 @@ Windows program for checking your recent balance using your banking API.
 **Languages:** TypeScript
 
 Example web client using Up API.
+
+
+## lookUPtx
+
+**Author:** [@simbesh](https://gitlab.com/simbesh)\
+**Repository:** https://gitlab.com/simbesh/lookup \
+**Created:** 11/08/2020\
+**Languages:** Javascript & React
+
+Web client to look up your transactions.

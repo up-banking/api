@@ -1507,7 +1507,7 @@
     },
     {
       "name": "Transactions",
-      "description": "Transactions represent the movement of money into and out of an\naccount. They have many characteristics that vary depending on\nthe kind of transaction. Transactions may be tempoarily `HELD`\n(pending) or `SETTLED`, typically depending on which payment\nmethod was used at the point of sale.\n"
+      "description": "Transactions represent the movement of money into and out of an\naccount. They have many characteristics that vary depending on\nthe kind of transaction. Transactions may be temporarily `HELD`\n(pending) or `SETTLED`, typically depending on which payment\nmethod was used at the point of sale.\n"
     },
     {
       "name": "Utility endpoints",

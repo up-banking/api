@@ -96,3 +96,13 @@ Example web client using Up API.
 **Languages:** Javascript & React
 
 Web client to look up your transactions.
+
+
+## Up Bank API - TypeScript SDK
+
+**Author:** [@ndench](https://github.com/ndench)\
+**Repository:** https://github.com/ndench/up-bank-api \
+**Created:** 04/09/2020\
+**Languages:** TypeScript
+
+Example web client using Up API.

@@ -115,4 +115,4 @@ Example web client using Up API.
 **Created:** 21/09/2020\
 **Languages:** .Netcore 
 
-Example web client using Up API.
+A .Netcore SDK for the Up Bank Api

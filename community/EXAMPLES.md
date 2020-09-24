@@ -106,3 +106,13 @@ Web client to look up your transactions.
 **Languages:** TypeScript
 
 Example web client using Up API.
+
+
+## Up Bank API - .Net SDK
+
+**Author:** [@SelectSystemsInternational](https://github.com/SelectSystemsInternational)\
+**Repository:** https://github.com/SelectSystemsInternational/up-bank-api \
+**Created:** 21/09/2020\
+**Languages:** .Netcore 
+
+A .Netcore SDK for the Up Bank Api

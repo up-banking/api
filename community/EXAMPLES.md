@@ -116,3 +116,12 @@ Example web client using Up API.
 **Languages:** .Netcore 
 
 A .Netcore SDK for the Up Bank Api
+
+## fitbit-upbankbalance
+
+**Author:** [@alyssadev](https://github.com/alyssadev) \
+**Repository:** https://github.com/alyssadev/fitbit-upbankbalance \
+**Created:** 09/11/2020 \
+**Languages:** JS/CSS
+
+A Fitbit app that displays the sum of balances in a user's transactional and saver accounts

@@ -125,3 +125,12 @@ A .Netcore SDK for the Up Bank Api
 **Languages:** JS/CSS
 
 A Fitbit app that displays the sum of balances in a user's transactional and saver accounts
+
+## up-to-ynab
+
+**Author:** [@BrodieSutherland](https://github.com/BrodieSutherland) \
+**Repository:** https://github.com/BrodieSutherland/up-to-ynab \
+**Created:** 24/04/2021 \
+**Languages:** Python, Heroku
+
+An automatic transaction forwarder to YNAB's budgeting system

@@ -134,3 +134,12 @@ A Fitbit app that displays the sum of balances in a user's transactional and sav
 **Languages:** Python, Heroku
 
 An automatic transaction forwarder to YNAB's budgeting system
+
+## upbank2firefly
+
+**Author:** [@richwalm](https://github.com/richwalm) \
+**Repository:** https://github.com/richwalm/upbank2firefly \
+**Created:** 03/10/2021 \
+**Languages:** Python
+
+Webhook handler to automatically add Up transactions to [Firefly III](https://github.com/firefly-iii/firefly-iii), a personal finances manager.

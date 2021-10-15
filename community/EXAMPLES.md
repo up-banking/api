@@ -134,3 +134,12 @@ A Fitbit app that displays the sum of balances in a user's transactional and sav
 **Languages:** Python, Heroku
 
 An automatic transaction forwarder to YNAB's budgeting system
+
+## Up macOS Application (Provenance)
+
+**Author:** [@themuzzleflare](https://github.com/themuzzleflare) \
+**Repository:** https://github.com/themuzzleflare/ProvenanceMacOS \
+**Created:** 05/10/2021 \
+**Languages:** Swift
+
+A native macOS application that displays your bank accounts, transactions, categories and tags. You can list and filter transactions by account, tag and category, add/remove tags from transactions. Includes widgets and shortcuts app integration on macOS Monterey. Requires macOS 11.0+.

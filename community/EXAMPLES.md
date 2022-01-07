@@ -134,3 +134,13 @@ A Fitbit app that displays the sum of balances in a user's transactional and sav
 **Languages:** Python, Heroku
 
 An automatic transaction forwarder to YNAB's budgeting system
+
+
+## Up.NET
+
+**Author:** [@Hona](https://github.com/Hona) \
+**Repository:** https://github.com/Hona/Up.NET \
+**Created:** 31/08/2021 \
+**Languages:** C#, .NET
+
+Complete .NET wrapper of the API in .NET 5

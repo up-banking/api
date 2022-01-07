@@ -165,3 +165,12 @@ For images and a more complete description of what the site can (and will) do, v
 **Languages:** Python
 
 Webhook handler to automatically add Up transactions to [Firefly III](https://github.com/firefly-iii/firefly-iii), a personal finances manager.
+
+## Up macOS Application (Provenance)
+
+**Author:** [@themuzzleflare](https://github.com/themuzzleflare) \
+**Repository:** https://github.com/themuzzleflare/ProvenanceMacOS \
+**Created:** 05/10/2021 \
+**Languages:** Swift
+
+A native macOS application that displays your bank accounts, transactions, categories and tags. You can list and filter transactions by account, tag and category, add/remove tags from transactions. Includes widgets and shortcuts app integration on macOS Monterey. Requires macOS 11.0+.

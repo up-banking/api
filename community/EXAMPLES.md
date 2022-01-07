@@ -135,6 +135,37 @@ A Fitbit app that displays the sum of balances in a user's transactional and sav
 
 An automatic transaction forwarder to YNAB's budgeting system
 
+## Up.NET
+
+**Author:** [@Hona](https://github.com/Hona) \
+**Repository:** https://github.com/Hona/Up.NET \
+**Created:** 31/08/2021 \
+**Languages:** C#, .NET
+
+Complete .NET wrapper of the API in .NET 5
+
+## UpBlazor
+
+**Author:** [@Hona](https://github.com/Hona) \
+**Repository:** https://github.com/Hona/UpBlazor \
+**Created:** 14/09/2021 \
+**Languages:** C#
+
+A full website designed to assist you with budgetting and insights - integrating with your Up account!
+
+You can try it out here: https://up.lukeparker.dev - if you don't want to use your real API token, feel free to use the built in demo token: 'up:demo'
+
+For images and a more complete description of what the site can (and will) do, visit the [README](https://github.com/Hona/UpBlazor)
+
+## upbank2firefly
+
+**Author:** [@richwalm](https://github.com/richwalm) \
+**Repository:** https://github.com/richwalm/upbank2firefly \
+**Created:** 03/10/2021 \
+**Languages:** Python
+
+Webhook handler to automatically add Up transactions to [Firefly III](https://github.com/firefly-iii/firefly-iii), a personal finances manager.
+
 ## Up macOS Application (Provenance)
 
 **Author:** [@themuzzleflare](https://github.com/themuzzleflare) \

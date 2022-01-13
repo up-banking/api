@@ -378,6 +378,42 @@
           "data"
         ]
       },
+      "CategoryInputResourceIdentifier": {
+        "type": "object",
+        "description": "Uniquely identifies a category in the API.\n",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The type of this resource: `categories`"
+          },
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the category, as returned by the `/categories`\nendpoint.\n"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ]
+      },
+      "UpdateTransactionCategoryRequest": {
+        "type": "object",
+        "description": "Request to update the category associated with a transaction.\n",
+        "properties": {
+          "data": {
+            "nullable": true,
+            "description": "The category to set on the transaction. Set this entire key to `null`\nde-categorize a transaction.\n",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CategoryInputResourceIdentifier"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
       "PingResponse": {
         "type": "object",
         "description": "Basic ping response to verify authentication.\n",
@@ -690,6 +726,10 @@
                 "nullable": true,
                 "description": "Attached message for this transaction, such as a payment message, or a\ntransfer note.\n"
               },
+              "isCategorizable": {
+                "type": "boolean",
+                "description": "Boolean flag set to true on transactions that support the use of\ncategories.\n"
+              },
               "holdInfo": {
                 "nullable": true,
                 "description": "If this transaction is currently in the `HELD` status, or was ever in\nthe `HELD` status, the `amount` and `foreignAmount` of the\ntransaction while `HELD`.\n",
@@ -751,6 +791,7 @@
               "rawText",
               "description",
               "message",
+              "isCategorizable",
               "holdInfo",
               "roundUp",
               "cashback",
@@ -837,7 +878,7 @@
                 "required": [
                   "data"
                 ],
-                "description": "If this transaction is a transfer between accounts, this field will\ncontain the account the transaction went to/came from. The `amount`\nfield can be used to determine the direction of the transfer.\n"
+                "description": "If this transaction is a transfer between accounts, this relationship\nwill contain the account the transaction went to/came from. The\n`amount` field can be used to determine the direction of the transfer.\n"
               },
               "category": {
                 "type": "object",
@@ -863,13 +904,17 @@
                   "links": {
                     "type": "object",
                     "properties": {
+                      "self": {
+                        "type": "string",
+                        "description": "The link to retrieve or modify linkage between this resources and the\nrelated resource(s) in this relationship.\n"
+                      },
                       "related": {
                         "type": "string",
                         "description": "The link to retrieve the related resource(s) in this relationship.\n"
                       }
                     },
                     "required": [
-                      "related"
+                      "self"
                     ]
                   }
                 },
@@ -1628,7 +1673,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:PpYXpNyfFwhe8ACb"
+                  "Authorization": "Bearer up:demo:5PnWS0GVxCU0O1Oz"
                 },
                 "pathParameters": {
                 },
@@ -1641,7 +1686,7 @@
                 "data": [
                   {
                     "type": "accounts",
-                    "id": "f6063d82-c80c-4c6d-9ee9-2380aca32575",
+                    "id": "26d88ec4-78d0-443c-a71f-48bcbf1d7a8e",
                     "attributes": {
                       "displayName": "Spending",
                       "accountType": "TRANSACTIONAL",
@@ -1651,23 +1696,23 @@
                         "value": "1.00",
                         "valueInBaseUnits": 100
                       },
-                      "createdAt": "2022-01-07T18:25:25+11:00"
+                      "createdAt": "2022-01-13T14:50:14+11:00"
                     },
                     "relationships": {
                       "transactions": {
                         "links": {
-                          "related": "https://api.up.com.au/api/v1/accounts/f6063d82-c80c-4c6d-9ee9-2380aca32575/transactions"
+                          "related": "https://api.up.com.au/api/v1/accounts/26d88ec4-78d0-443c-a71f-48bcbf1d7a8e/transactions"
                         }
                       }
                     },
                     "links": {
-                      "self": "https://api.up.com.au/api/v1/accounts/f6063d82-c80c-4c6d-9ee9-2380aca32575"
+                      "self": "https://api.up.com.au/api/v1/accounts/26d88ec4-78d0-443c-a71f-48bcbf1d7a8e"
                     }
                   }
                 ],
                 "links": {
                   "prev": null,
-                  "next": "https://api.up.com.au/api/v1/accounts?page%5Bafter%5D=WyIyMDIyLTAxLTA3VDA3OjI1OjI1Ljc3MzgwODAwMFoiLCJmNjA2M2Q4Mi1jODBjLTRjNmQtOWVlOS0yMzgwYWNhMzI1NzUiXQ%3D%3D&page%5Bsize%5D=1"
+                  "next": "https://api.up.com.au/api/v1/accounts?page%5Bafter%5D=WyIyMDIyLTAxLTEzVDAzOjUwOjE0LjUzNzk0NzAwMFoiLCIyNmQ4OGVjNC03OGQwLTQ0M2MtYTcxZi00OGJjYmYxZDdhOGUiXQ%3D%3D&page%5Bsize%5D=1"
                 }
               }
             }
@@ -1690,7 +1735,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "509f53be-2120-447b-b700-975942ac179d",
+            "example": "92b41408-6b7b-4fca-982b-3fb1fdd77220",
             "description": "The unique identifier for the account.\n"
           }
         ],
@@ -1708,10 +1753,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:z6QDShzixu207jBm"
+                  "Authorization": "Bearer up:demo:DpnDo3VeOQrhTq13"
                 },
                 "pathParameters": {
-                  "id": "e5494452-4671-4f31-ac33-9bc57ae7b33b"
+                  "id": "c2b6547c-6189-42b8-bd63-3993761825a0"
                 },
                 "queryParameters": {
                 },
@@ -1720,7 +1765,7 @@
               "response": {
                 "data": {
                   "type": "accounts",
-                  "id": "e5494452-4671-4f31-ac33-9bc57ae7b33b",
+                  "id": "c2b6547c-6189-42b8-bd63-3993761825a0",
                   "attributes": {
                     "displayName": "🐷 Savings",
                     "accountType": "SAVER",
@@ -1730,17 +1775,17 @@
                       "value": "125.36",
                       "valueInBaseUnits": 12536
                     },
-                    "createdAt": "2022-01-07T18:25:27+11:00"
+                    "createdAt": "2022-01-13T14:50:15+11:00"
                   },
                   "relationships": {
                     "transactions": {
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/accounts/e5494452-4671-4f31-ac33-9bc57ae7b33b/transactions"
+                        "related": "https://api.up.com.au/api/v1/accounts/c2b6547c-6189-42b8-bd63-3993761825a0/transactions"
                       }
                     }
                   },
                   "links": {
-                    "self": "https://api.up.com.au/api/v1/accounts/e5494452-4671-4f31-ac33-9bc57ae7b33b"
+                    "self": "https://api.up.com.au/api/v1/accounts/c2b6547c-6189-42b8-bd63-3993761825a0"
                   }
                 }
               }
@@ -1782,7 +1827,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:RXxhJs21x8JItREz"
+                  "Authorization": "Bearer up:demo:WPt3A6fzd8WAsLLP"
                 },
                 "pathParameters": {
                 },
@@ -1891,7 +1936,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:W4VMS2T90aEOlsSL"
+                  "Authorization": "Bearer up:demo:tOnteWbP5FzK52tt"
                 },
                 "pathParameters": {
                   "id": "home"
@@ -1933,6 +1978,62 @@
         }
       }
     },
+    "/transactions/{transactionId}/relationships/category": {
+      "patch": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Categorize transaction",
+        "description": "Updates the category associated with a transaction. Only transactions\nfor which `isCategorizable` is set to true support this operation. The\n`id` is taken from the list exposed on `/categories` and cannot be one of\nthe top-level (parent) categories. To de-categorize a transaction, set\nthe entire `data` key to `null`. An HTTP `204` is returned on success.\nThe associated category, along with its request URL is also exposed via\nthe `category` relationship on the transaction resource returned from\n`/transactions/{id}`.\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTransactionCategoryRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "a572c7c3-b637-433c-a4ce-c0be5dcb0a5a",
+            "description": "The unique identifier for the transaction.\n"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response",
+            "x-up:example": {
+              "type": "exampleRequestResponse",
+              "request": {
+                "headers": {
+                  "Authorization": "Bearer up:demo:FGVj7lJzpYRFBcwQ",
+                  "Content-Type": "application/json"
+                },
+                "pathParameters": {
+                  "transactionId": "5a010c5d-a058-465a-956b-93809e8bbf16"
+                },
+                "queryParameters": {
+                },
+                "payload": {
+                  "data": {
+                    "type": "categories",
+                    "id": "restaurants-and-cafes"
+                  }
+                }
+              },
+              "response": null
+            }
+          }
+        }
+      }
+    },
     "/util/ping": {
       "get": {
         "tags": [
@@ -1954,7 +2055,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:UnZISkIbPNLRKz6a"
+                  "Authorization": "Bearer up:demo:eOr0TZ0qTMpcXWJj"
                 },
                 "pathParameters": {
                 },
@@ -1964,7 +2065,7 @@
               },
               "response": {
                 "meta": {
-                  "id": "2f3241c6-cbda-4432-aa91-3da3035c1ea2",
+                  "id": "7feb7523-d65e-4b98-9eae-cd521b5005de",
                   "statusEmoji": "⚡️"
                 }
               }
@@ -2037,7 +2138,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:Bqj0B1HJOygH1wjm"
+                  "Authorization": "Bearer up:demo:Z4FAB4Tl7jVHdp3w"
                 },
                 "pathParameters": {
                 },
@@ -2105,7 +2206,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "078eac61-70d0-4570-9377-8f4799f8f913",
+            "example": "acde4631-db56-49a6-aea3-4e2311ef1d6a",
             "description": "The unique identifier for the transaction.\n"
           }
         ],
@@ -2116,11 +2217,11 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:QTnKG7ynuliutdUe",
+                  "Authorization": "Bearer up:demo:Sr1VvsqAqKngeTQS",
                   "Content-Type": "application/json"
                 },
                 "pathParameters": {
-                  "transactionId": "59a0d01d-5843-4395-aa58-c82272830651"
+                  "transactionId": "af2f319c-1edd-4386-ad15-5927f7ead3af"
                 },
                 "queryParameters": {
                 },
@@ -2165,7 +2266,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "dbea0072-729e-4158-8a6e-ba0d784e70d2",
+            "example": "c3feb4ba-829c-4482-b882-1b9bd23da82d",
             "description": "The unique identifier for the transaction.\n"
           }
         ],
@@ -2176,11 +2277,11 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:544nsvjdywXEMdKY",
+                  "Authorization": "Bearer up:demo:qc6D7GoPamQ09cJH",
                   "Content-Type": "application/json"
                 },
                 "pathParameters": {
-                  "transactionId": "b2792917-7643-4ef8-82dd-7f015dfd5f64"
+                  "transactionId": "32e050dc-ed36-462c-9cf6-68d5cb64e289"
                 },
                 "queryParameters": {
                 },
@@ -2288,7 +2389,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:9cvewY6T5ve7OcLg"
+                  "Authorization": "Bearer up:demo:9iP9L9BTmcPc1dTh"
                 },
                 "pathParameters": {
                 },
@@ -2303,12 +2404,13 @@
                 "data": [
                   {
                     "type": "transactions",
-                    "id": "26435ed5-7600-47cd-b9d1-ad0887bb4a65",
+                    "id": "f2020933-8b6c-47a8-bb4e-fe5477d876c1",
                     "attributes": {
                       "status": "SETTLED",
                       "rawText": null,
                       "description": "David Taylor",
                       "message": "Money for the pizzas last night.",
+                      "isCategorizable": true,
                       "holdInfo": null,
                       "roundUp": null,
                       "cashback": null,
@@ -2318,24 +2420,27 @@
                         "valueInBaseUnits": -5998
                       },
                       "foreignAmount": null,
-                      "settledAt": "2022-01-06T11:23:43+11:00",
-                      "createdAt": "2022-01-06T11:23:43+11:00"
+                      "settledAt": "2022-01-12T07:48:33+11:00",
+                      "createdAt": "2022-01-12T07:48:33+11:00"
                     },
                     "relationships": {
                       "account": {
                         "data": {
                           "type": "accounts",
-                          "id": "56234b4e-ee6c-4d7a-b26d-bd09353ff6a8"
+                          "id": "3050a1f9-5157-4b71-99c5-3524c083ecfe"
                         },
                         "links": {
-                          "related": "https://api.up.com.au/api/v1/accounts/56234b4e-ee6c-4d7a-b26d-bd09353ff6a8"
+                          "related": "https://api.up.com.au/api/v1/accounts/3050a1f9-5157-4b71-99c5-3524c083ecfe"
                         }
                       },
                       "transferAccount": {
                         "data": null
                       },
                       "category": {
-                        "data": null
+                        "data": null,
+                        "links": {
+                          "self": "https://api.up.com.au/api/v1/transactions/f2020933-8b6c-47a8-bb4e-fe5477d876c1/relationships/category"
+                        }
                       },
                       "parentCategory": {
                         "data": null
@@ -2348,12 +2453,12 @@
                           }
                         ],
                         "links": {
-                          "self": "https://api.up.com.au/api/v1/transactions/26435ed5-7600-47cd-b9d1-ad0887bb4a65/relationships/tags"
+                          "self": "https://api.up.com.au/api/v1/transactions/f2020933-8b6c-47a8-bb4e-fe5477d876c1/relationships/tags"
                         }
                       }
                     },
                     "links": {
-                      "self": "https://api.up.com.au/api/v1/transactions/26435ed5-7600-47cd-b9d1-ad0887bb4a65"
+                      "self": "https://api.up.com.au/api/v1/transactions/f2020933-8b6c-47a8-bb4e-fe5477d876c1"
                     }
                   }
                 ],
@@ -2382,7 +2487,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "5a1aa4c8-87a1-4e1a-9891-e6db2179013f",
+            "example": "7a9d19f9-106c-4e29-8591-52fc5d8f09c5",
             "description": "The unique identifier for the transaction.\n"
           }
         ],
@@ -2400,10 +2505,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:ThqGr4mMiJcpPm8A"
+                  "Authorization": "Bearer up:demo:XLk9FDAi6bniOFR9"
                 },
                 "pathParameters": {
-                  "id": "6a0d8bc7-e42a-4ec2-9ec4-6f9e8f02502c"
+                  "id": "7c125426-98b7-4cd5-b899-95db54f5c6c1"
                 },
                 "queryParameters": {
                 },
@@ -2412,12 +2517,13 @@
               "response": {
                 "data": {
                   "type": "transactions",
-                  "id": "6a0d8bc7-e42a-4ec2-9ec4-6f9e8f02502c",
+                  "id": "7c125426-98b7-4cd5-b899-95db54f5c6c1",
                   "attributes": {
                     "status": "SETTLED",
                     "rawText": "WARUNG BEBEK, UBUD INDONES",
                     "description": "Warung Bebek Bengil",
                     "message": null,
+                    "isCategorizable": true,
                     "holdInfo": {
                       "amount": {
                         "currencyCode": "AUD",
@@ -2445,24 +2551,27 @@
                       "value": "-1053698.77",
                       "valueInBaseUnits": -105369877
                     },
-                    "settledAt": "2022-01-04T04:00:00+11:00",
-                    "createdAt": "2022-01-04T04:00:00+11:00"
+                    "settledAt": "2022-01-10T04:00:00+11:00",
+                    "createdAt": "2022-01-10T04:00:00+11:00"
                   },
                   "relationships": {
                     "account": {
                       "data": {
                         "type": "accounts",
-                        "id": "7d7cf5f3-e631-4b51-8c44-30c4205d5741"
+                        "id": "1bf1c1b3-2ea9-48b6-9e94-1bcfcaf56b7d"
                       },
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/accounts/7d7cf5f3-e631-4b51-8c44-30c4205d5741"
+                        "related": "https://api.up.com.au/api/v1/accounts/1bf1c1b3-2ea9-48b6-9e94-1bcfcaf56b7d"
                       }
                     },
                     "transferAccount": {
                       "data": null
                     },
                     "category": {
-                      "data": null
+                      "data": null,
+                      "links": {
+                        "self": "https://api.up.com.au/api/v1/transactions/7c125426-98b7-4cd5-b899-95db54f5c6c1/relationships/category"
+                      }
                     },
                     "parentCategory": {
                       "data": null
@@ -2472,12 +2581,12 @@
 
                       ],
                       "links": {
-                        "self": "https://api.up.com.au/api/v1/transactions/6a0d8bc7-e42a-4ec2-9ec4-6f9e8f02502c/relationships/tags"
+                        "self": "https://api.up.com.au/api/v1/transactions/7c125426-98b7-4cd5-b899-95db54f5c6c1/relationships/tags"
                       }
                     }
                   },
                   "links": {
-                    "self": "https://api.up.com.au/api/v1/transactions/6a0d8bc7-e42a-4ec2-9ec4-6f9e8f02502c"
+                    "self": "https://api.up.com.au/api/v1/transactions/7c125426-98b7-4cd5-b899-95db54f5c6c1"
                   }
                 }
               }
@@ -2501,7 +2610,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "5035592b-cf2e-4b96-a9e2-cae9887bf513",
+            "example": "b5544658-4bbd-4eb1-8f63-a9909e0f564b",
             "description": "The unique identifier for the account.\n"
           },
           {
@@ -2581,10 +2690,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:0Jh4BLoJIXC3Qrp1"
+                  "Authorization": "Bearer up:demo:p5OsA0UQU85Tto4g"
                 },
                 "pathParameters": {
-                  "accountId": "fe77ca6a-ac1d-4a7a-a537-5eb8bea2ff01"
+                  "accountId": "654cd41a-6f6d-4c2f-a1dd-5ad42c5ea175"
                 },
                 "queryParameters": {
                   "page[size]": 1,
@@ -2597,12 +2706,13 @@
                 "data": [
                   {
                     "type": "transactions",
-                    "id": "e7218f3f-4b7c-4ccd-b16b-82e8fea9065c",
+                    "id": "d3726667-719e-4202-b889-cee39dfedb70",
                     "attributes": {
                       "status": "HELD",
                       "rawText": "Spotify 0123456789",
                       "description": "Spotify",
                       "message": null,
+                      "isCategorizable": true,
                       "holdInfo": {
                         "amount": {
                           "currencyCode": "AUD",
@@ -2620,16 +2730,16 @@
                       },
                       "foreignAmount": null,
                       "settledAt": null,
-                      "createdAt": "2022-01-04T14:16:54+11:00"
+                      "createdAt": "2022-01-10T10:41:42+11:00"
                     },
                     "relationships": {
                       "account": {
                         "data": {
                           "type": "accounts",
-                          "id": "fe77ca6a-ac1d-4a7a-a537-5eb8bea2ff01"
+                          "id": "654cd41a-6f6d-4c2f-a1dd-5ad42c5ea175"
                         },
                         "links": {
-                          "related": "https://api.up.com.au/api/v1/accounts/fe77ca6a-ac1d-4a7a-a537-5eb8bea2ff01"
+                          "related": "https://api.up.com.au/api/v1/accounts/654cd41a-6f6d-4c2f-a1dd-5ad42c5ea175"
                         }
                       },
                       "transferAccount": {
@@ -2641,6 +2751,7 @@
                           "id": "tv-and-music"
                         },
                         "links": {
+                          "self": "https://api.up.com.au/api/v1/transactions/d3726667-719e-4202-b889-cee39dfedb70/relationships/category",
                           "related": "https://api.up.com.au/api/v1/categories/tv-and-music"
                         }
                       },
@@ -2658,12 +2769,12 @@
 
                         ],
                         "links": {
-                          "self": "https://api.up.com.au/api/v1/transactions/e7218f3f-4b7c-4ccd-b16b-82e8fea9065c/relationships/tags"
+                          "self": "https://api.up.com.au/api/v1/transactions/d3726667-719e-4202-b889-cee39dfedb70/relationships/tags"
                         }
                       }
                     },
                     "links": {
-                      "self": "https://api.up.com.au/api/v1/transactions/e7218f3f-4b7c-4ccd-b16b-82e8fea9065c"
+                      "self": "https://api.up.com.au/api/v1/transactions/d3726667-719e-4202-b889-cee39dfedb70"
                     }
                   }
                 ],
@@ -2710,7 +2821,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:E6jp2Olh8EIycoml"
+                  "Authorization": "Bearer up:demo:Id50WZYXl1n7Pb7o"
                 },
                 "pathParameters": {
                 },
@@ -2723,27 +2834,27 @@
                 "data": [
                   {
                     "type": "webhooks",
-                    "id": "e1b3ad9e-27ba-430f-b47e-bbd88a018dc3",
+                    "id": "dcb32837-b686-42eb-82a9-2c173b5b3ee4",
                     "attributes": {
                       "url": "http://example.com/webhook-1",
                       "description": "Webhook number 1",
-                      "createdAt": "2022-01-05T18:25:56+11:00"
+                      "createdAt": "2022-01-11T14:50:43+11:00"
                     },
                     "relationships": {
                       "logs": {
                         "links": {
-                          "related": "https://api.up.com.au/api/v1/webhooks/e1b3ad9e-27ba-430f-b47e-bbd88a018dc3/logs"
+                          "related": "https://api.up.com.au/api/v1/webhooks/dcb32837-b686-42eb-82a9-2c173b5b3ee4/logs"
                         }
                       }
                     },
                     "links": {
-                      "self": "https://api.up.com.au/api/v1/webhooks/e1b3ad9e-27ba-430f-b47e-bbd88a018dc3"
+                      "self": "https://api.up.com.au/api/v1/webhooks/dcb32837-b686-42eb-82a9-2c173b5b3ee4"
                     }
                   }
                 ],
                 "links": {
                   "prev": null,
-                  "next": "https://api.up.com.au/api/v1/webhooks?page%5Bafter%5D=WyIyMDIyLTAxLTA1VDA3OjI1OjU2LjE3OTI3MjAwMFoiLCJlMWIzYWQ5ZS0yN2JhLTQzMGYtYjQ3ZS1iYmQ4OGEwMThkYzMiXQ%3D%3D&page%5Bsize%5D=1"
+                  "next": "https://api.up.com.au/api/v1/webhooks?page%5Bafter%5D=WyIyMDIyLTAxLTExVDAzOjUwOjQzLjc1OTEyMzAwMFoiLCJkY2IzMjgzNy1iNjg2LTQyZWItODJhOS0yYzE3M2I1YjNlZTQiXQ%3D%3D&page%5Bsize%5D=1"
                 }
               }
             }
@@ -2779,7 +2890,7 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:eyWRD144MQKiqhPV",
+                  "Authorization": "Bearer up:demo:Q8zq1dRpYtsGeGHE",
                   "Content-Type": "application/json"
                 },
                 "pathParameters": {
@@ -2798,22 +2909,22 @@
               "response": {
                 "data": {
                   "type": "webhooks",
-                  "id": "b651905c-374c-4023-8c0c-aa4cbf2d2240",
+                  "id": "4229772e-3558-46c9-8df1-526b7c0632bc",
                   "attributes": {
                     "url": "http://example.com/webhook",
                     "description": "Example webhook",
-                    "secretKey": "RbtptX5I4n4fPKQmvjuh0gvCCDZM7LO4rlNeytJxndDrfoWgS8vwgMBUfROXOOiJ",
-                    "createdAt": "2022-01-07T18:25:57+11:00"
+                    "secretKey": "5l2wSJIvC01gD2W2GZ6XPHN7SEg2cXUWWKf7xiVLdk0Qsmuu9NHDmNV3M5DxVDg6",
+                    "createdAt": "2022-01-13T14:50:44+11:00"
                   },
                   "relationships": {
                     "logs": {
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/webhooks/b651905c-374c-4023-8c0c-aa4cbf2d2240/logs"
+                        "related": "https://api.up.com.au/api/v1/webhooks/4229772e-3558-46c9-8df1-526b7c0632bc/logs"
                       }
                     }
                   },
                   "links": {
-                    "self": "https://api.up.com.au/api/v1/webhooks/b651905c-374c-4023-8c0c-aa4cbf2d2240"
+                    "self": "https://api.up.com.au/api/v1/webhooks/4229772e-3558-46c9-8df1-526b7c0632bc"
                   }
                 }
               }
@@ -2857,28 +2968,28 @@
                   "payload": {
                     "data": {
                       "type": "webhook-events",
-                      "id": "f87d7146-1a1f-4962-bae0-807c3d6b70df",
+                      "id": "f23aba64-a992-46e3-a6f9-b162d58bc731",
                       "attributes": {
                         "eventType": "TRANSACTION_CREATED",
-                        "createdAt": "2022-01-07T18:25:57+11:00"
+                        "createdAt": "2022-01-13T14:50:45+11:00"
                       },
                       "relationships": {
                         "webhook": {
                           "data": {
                             "type": "webhooks",
-                            "id": "08489428-c989-4b40-91fa-094b17a5f49b"
+                            "id": "8b1744c4-d65c-4d9e-9ab5-3b50512fa867"
                           },
                           "links": {
-                            "related": "https://api.up.com.au/api/v1/webhooks/08489428-c989-4b40-91fa-094b17a5f49b"
+                            "related": "https://api.up.com.au/api/v1/webhooks/8b1744c4-d65c-4d9e-9ab5-3b50512fa867"
                           }
                         },
                         "transaction": {
                           "data": {
                             "type": "transactions",
-                            "id": "37f44cf4-4073-4ed0-8e95-a49014f6ae3d"
+                            "id": "52717f62-f725-4674-94a9-8470decf2c2a"
                           },
                           "links": {
-                            "related": "https://api.up.com.au/api/v1/transactions/37f44cf4-4073-4ed0-8e95-a49014f6ae3d"
+                            "related": "https://api.up.com.au/api/v1/transactions/52717f62-f725-4674-94a9-8470decf2c2a"
                           }
                         }
                       }
@@ -2906,7 +3017,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "e6a0ed5b-66f2-4363-bedc-c19fe3466665",
+            "example": "c8283a72-24b0-4fd8-9b13-fccccab371e5",
             "description": "The unique identifier for the webhook.\n"
           }
         ],
@@ -2924,10 +3035,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:ky24XHvv9KuDzP1x"
+                  "Authorization": "Bearer up:demo:6qAFUokK7x5aUTSL"
                 },
                 "pathParameters": {
-                  "id": "a74bf657-dfb5-4e85-8036-f946c512e41d"
+                  "id": "4485694d-d057-4e7f-879c-0886d2092a71"
                 },
                 "queryParameters": {
                 },
@@ -2936,21 +3047,21 @@
               "response": {
                 "data": {
                   "type": "webhooks",
-                  "id": "a74bf657-dfb5-4e85-8036-f946c512e41d",
+                  "id": "4485694d-d057-4e7f-879c-0886d2092a71",
                   "attributes": {
                     "url": "http://example.com/webhook-2",
                     "description": "Webhook number 2",
-                    "createdAt": "2022-01-06T18:25:59+11:00"
+                    "createdAt": "2022-01-12T14:50:46+11:00"
                   },
                   "relationships": {
                     "logs": {
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/webhooks/a74bf657-dfb5-4e85-8036-f946c512e41d/logs"
+                        "related": "https://api.up.com.au/api/v1/webhooks/4485694d-d057-4e7f-879c-0886d2092a71/logs"
                       }
                     }
                   },
                   "links": {
-                    "self": "https://api.up.com.au/api/v1/webhooks/a74bf657-dfb5-4e85-8036-f946c512e41d"
+                    "self": "https://api.up.com.au/api/v1/webhooks/4485694d-d057-4e7f-879c-0886d2092a71"
                   }
                 }
               }
@@ -2972,7 +3083,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "8ff55222-8766-4ed4-af9a-239dc78cb211",
+            "example": "a940825b-80b6-4798-b378-c6284259b4c5",
             "description": "The unique identifier for the webhook.\n"
           }
         ],
@@ -2983,10 +3094,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:in4nrL3MbcrNic8g"
+                  "Authorization": "Bearer up:demo:DSduRSY7s3nReT16"
                 },
                 "pathParameters": {
-                  "id": "85f2c831-1146-44d7-aae8-7dccb22a070c"
+                  "id": "b2daaed4-4403-44fd-acec-9f9b8ceba5d9"
                 },
                 "queryParameters": {
                 },
@@ -3013,7 +3124,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "8e8b2705-db04-4c04-8a70-57d1b16195ab",
+            "example": "830e127d-fb89-4400-92bb-f3f48289dcba",
             "description": "The unique identifier for the webhook.\n"
           }
         ],
@@ -3031,11 +3142,11 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:MDimsSJp0fgvHp83",
+                  "Authorization": "Bearer up:demo:oLDKm4XoYRcboJD3",
                   "Content-Type": "application/json"
                 },
                 "pathParameters": {
-                  "webhookId": "c5fe321a-9222-4d2c-8e3c-53352d628f3a"
+                  "webhookId": "c673b0fa-caee-4d05-9fa6-9a76ee58f838"
                 },
                 "queryParameters": {
                 },
@@ -3044,19 +3155,19 @@
               "response": {
                 "data": {
                   "type": "webhook-events",
-                  "id": "29f751c7-74a5-4c18-8084-7e6d38604fef",
+                  "id": "f0adb047-e63e-41d7-bdba-263c38f14581",
                   "attributes": {
                     "eventType": "PING",
-                    "createdAt": "2022-01-07T18:26:01+11:00"
+                    "createdAt": "2022-01-13T14:50:48+11:00"
                   },
                   "relationships": {
                     "webhook": {
                       "data": {
                         "type": "webhooks",
-                        "id": "c5fe321a-9222-4d2c-8e3c-53352d628f3a"
+                        "id": "c673b0fa-caee-4d05-9fa6-9a76ee58f838"
                       },
                       "links": {
-                        "related": "https://api.up.com.au/api/v1/webhooks/c5fe321a-9222-4d2c-8e3c-53352d628f3a"
+                        "related": "https://api.up.com.au/api/v1/webhooks/c673b0fa-caee-4d05-9fa6-9a76ee58f838"
                       }
                     }
                   }
@@ -3082,7 +3193,7 @@
               "type": "string"
             },
             "required": true,
-            "example": "0f6ca305-77f0-431a-81c0-eefdb6cde871",
+            "example": "7104f5df-4993-495f-9d29-2b4d062c03a9",
             "description": "The unique identifier for the webhook.\n"
           },
           {
@@ -3110,10 +3221,10 @@
               "type": "exampleRequestResponse",
               "request": {
                 "headers": {
-                  "Authorization": "Bearer up:demo:NNUgbpnfzBnFMhZE"
+                  "Authorization": "Bearer up:demo:TONkbYAMSJJAbHbp"
                 },
                 "pathParameters": {
-                  "webhookId": "e185c26f-75a1-46a4-b05c-282983b4ffe9"
+                  "webhookId": "117454bf-46ad-4be9-be0f-cadabf14e2c9"
                 },
                 "queryParameters": {
                   "page[size]": 1
@@ -3124,23 +3235,23 @@
                 "data": [
                   {
                     "type": "webhook-delivery-logs",
-                    "id": "8f6b5bd7-c7bf-4c39-a632-6f06a4793d6c",
+                    "id": "2482a02f-ebec-42a0-a09f-eb15843378d9",
                     "attributes": {
                       "request": {
-                        "body": "{\"data\":{\"type\":\"webhook-events\",\"id\":\"9900df03-878b-4d62-b7f7-299e5dfb07aa\",\"attributes\":{\"eventType\":\"TRANSACTION_CREATED\",\"createdAt\":\"2022-01-06T18:27:03+11:00\"},\"relationships\":{\"webhook\":{\"data\":{\"type\":\"webhooks\",\"id\":\"e185c26f-75a1-46a4-b05c-282983b4ffe9\"},\"links\":{\"related\":\"https://api.up.com.au/api/v1/webhooks/e185c26f-75a1-46a4-b05c-282983b4ffe9\"}},\"transaction\":{\"data\":{\"type\":\"transactions\",\"id\":\"23078414-2a25-4388-9981-86de96a1920f\"},\"links\":{\"related\":\"https://api.up.com.au/api/v1/transactions/23078414-2a25-4388-9981-86de96a1920f\"}}}}}"
+                        "body": "{\"data\":{\"type\":\"webhook-events\",\"id\":\"2347d5a4-78c8-47f8-b858-6a6f7ed8cd10\",\"attributes\":{\"eventType\":\"TRANSACTION_CREATED\",\"createdAt\":\"2022-01-12T14:51:50+11:00\"},\"relationships\":{\"webhook\":{\"data\":{\"type\":\"webhooks\",\"id\":\"117454bf-46ad-4be9-be0f-cadabf14e2c9\"},\"links\":{\"related\":\"https://api.up.com.au/api/v1/webhooks/117454bf-46ad-4be9-be0f-cadabf14e2c9\"}},\"transaction\":{\"data\":{\"type\":\"transactions\",\"id\":\"346eeb5b-43ba-4a5b-a747-667d72bef559\"},\"links\":{\"related\":\"https://api.up.com.au/api/v1/transactions/346eeb5b-43ba-4a5b-a747-667d72bef559\"}}}}}"
                       },
                       "response": {
                         "statusCode": 200,
                         "body": "{\"ok\":true}"
                       },
                       "deliveryStatus": "DELIVERED",
-                      "createdAt": "2022-01-06T18:27:03+11:00"
+                      "createdAt": "2022-01-12T14:51:50+11:00"
                     },
                     "relationships": {
                       "webhookEvent": {
                         "data": {
                           "type": "webhook-events",
-                          "id": "9900df03-878b-4d62-b7f7-299e5dfb07aa"
+                          "id": "2347d5a4-78c8-47f8-b858-6a6f7ed8cd10"
                         }
                       }
                     }
@@ -3148,7 +3259,7 @@
                 ],
                 "links": {
                   "prev": null,
-                  "next": "https://api.up.com.au/api/v1/webhooks/e185c26f-75a1-46a4-b05c-282983b4ffe9/logs?page%5Bafter%5D=WyIyMDIyLTAxLTA2VDA3OjI3OjAzLjUxMjk5MTAwMFoiLCI4ZjZiNWJkNy1jN2JmLTRjMzktYTYzMi02ZjA2YTQ3OTNkNmMiXQ%3D%3D&page%5Bsize%5D=1"
+                  "next": "https://api.up.com.au/api/v1/webhooks/117454bf-46ad-4be9-be0f-cadabf14e2c9/logs?page%5Bafter%5D=WyIyMDIyLTAxLTEyVDAzOjUxOjUwLjYyNTgwODAwMFoiLCIyNDgyYTAyZi1lYmVjLTQyYTAtYTA5Zi1lYjE1ODQzMzc4ZDkiXQ%3D%3D&page%5Bsize%5D=1"
                 }
               }
             }

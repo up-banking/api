@@ -174,3 +174,13 @@ Webhook handler to automatically add Up transactions to [Firefly III](https://gi
 **Languages:** Swift
 
 A native macOS application that displays your bank accounts, transactions, categories and tags. You can list and filter transactions by account, tag and category, add/remove tags from transactions. Includes widgets and shortcuts app integration on macOS Monterey. Requires macOS 11.0+.
+
+## Up Power BI Connector
+
+**Author:** [@nicholas-russell](https://github.com/nicholas-russell) \
+**Repository:** https://github.com/nicholas-russell/upbank-powerbi \
+**Created:** 05/04/2022 \
+**Languages:** Power Query M
+
+A custom Power BI connector to help you visualise your Up account, your way. 
+

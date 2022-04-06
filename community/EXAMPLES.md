@@ -48,7 +48,7 @@ in a web browser.
 **Created:** 15/08/2020 \
 **Languages:** Python
 
-A typed python client (API wrapper) for interacting with Up's banking API, also availiable on PyPI.
+💎 Fully typed Python client for (a)sync interaction with Up's banking API, available on [PyPI](https://pypi.org/project/up-bank-api).
 
 ## upbankpy
 

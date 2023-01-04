@@ -153,9 +153,9 @@ Complete .NET wrapper of the API in .NET 5
 
 A full website designed to assist you with budgetting and insights - integrating with your Up account!
 
-You can try it out here: https://up.lukeparker.dev - if you don't want to use your real API token, feel free to use the built in demo token: 'up:demo'
+You can try it out here: https://upblazor.com - if you don't want to use your real API token, feel free to use the built in demo token: 'up:demo'
 
-For images and a more complete description of what the site can (and will) do, visit the [README](https://github.com/Hona/UpBlazor)
+For images and a more complete description of what the site can (and will) do, visit the [README](https://github.com/Hona/UpBlazor), or the home page at https://upblazor.com
 
 ## upbank2firefly
 

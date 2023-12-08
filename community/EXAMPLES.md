@@ -31,6 +31,15 @@ cell with a balance of a specified account.
 
 Sensors for Home Assistant integration of Up Banking's API
 
+## Home Assistant Up Bank
+
+**Author:** [@jay-oswald](https://github.com/jay-oswald) \
+**Repository:** https://github.com/jay-oswald/ha-up-bank \
+**Created:** 06/12/2023 \
+**Languages:** Python
+
+Entities for each accounts balance, with more features planned
+
 ## up web
 
 **Author:** [@salamagd](https://github.com/salamagd) \

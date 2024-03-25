@@ -24,8 +24,8 @@ cell with a balance of a specified account.
 
 ## Up Banking Home Assistant
 
-**Author:** [@ryadanga](https://github.com/ryadanga) \
-**Repository:** https://github.com/ryadanga/up_banking_homeassistant \
+**Author:** [@jupys](https://github.com/jupys) \
+**Repository:** https://github.com/jupys/up_banking_homeassistant \
 **Created:** 01/08/2020 \
 **Languages:** YAML, HomeAssistant (?)
 

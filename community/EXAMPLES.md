@@ -31,6 +31,15 @@ cell with a balance of a specified account.
 
 Sensors for Home Assistant integration of Up Banking's API
 
+## Beancount Importer
+
+**Author:** [@johnmee](https://github.com/johnmee) \
+**Repository:** https://github.com/johnmee/aussie-bean-tools \
+**Created:** 01/01/2024 \
+**Languages:** Python
+
+CLI tool for downloading and importing transactions to [beancount](https://github.com/beancount/beancount)
+
 ## Home Assistant Up Bank
 
 **Author:** [@jay-oswald](https://github.com/jay-oswald) \

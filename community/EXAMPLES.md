@@ -193,3 +193,12 @@ A native macOS application that displays your bank accounts, transactions, categ
 **Languages:** Power Query M
 
 A custom Power BI connector to help you visualise your Up account, your way.
+
+## Up Grafana Datasource Plugin
+
+**Author:** [@ScriptSmith](https://github.com/scriptsmith) \
+**Repository:** https://github.com/ScriptSmith/up-datasource \
+**Created:** 25/10/2022 \
+**Languages:** Typescript
+
+A Grafana plugin to visualise transactions & accounts

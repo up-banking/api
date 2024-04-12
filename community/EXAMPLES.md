@@ -95,7 +95,6 @@ This is a simple command line program to interact with the Up Banking API.
 
 Windows program for checking your recent balance using your banking API.
 
-
 ## Up Api web example
 
 **Author:** [@svnm](https://github.com/svnm)\
@@ -104,7 +103,6 @@ Windows program for checking your recent balance using your banking API.
 **Languages:** TypeScript
 
 Example web client using Up API.
-
 
 ## lookUPtx
 
@@ -115,7 +113,6 @@ Example web client using Up API.
 
 Web client to look up your transactions.
 
-
 ## Up Bank API - TypeScript SDK
 
 **Author:** [@ndench](https://github.com/ndench)\
@@ -125,13 +122,12 @@ Web client to look up your transactions.
 
 Example web client using Up API.
 
-
 ## Up Bank API - .Net SDK
 
 **Author:** [@SelectSystemsInternational](https://github.com/SelectSystemsInternational)\
 **Repository:** https://github.com/SelectSystemsInternational/up-bank-api \
 **Created:** 21/09/2020\
-**Languages:** .Netcore 
+**Languages:** .Netcore
 
 A .Netcore SDK for the Up Bank Api
 
@@ -171,10 +167,6 @@ Complete .NET wrapper of the API in .NET 5
 
 A full website designed to assist you with budgetting and insights - integrating with your Up account!
 
-You can try it out here: https://up.lukeparker.dev - if you don't want to use your real API token, feel free to use the built in demo token: 'up:demo'
-
-For images and a more complete description of what the site can (and will) do, visit the [README](https://github.com/Hona/UpBlazor)
-
 ## upbank2firefly
 
 **Author:** [@richwalm](https://github.com/richwalm) \
@@ -200,5 +192,4 @@ A native macOS application that displays your bank accounts, transactions, categ
 **Created:** 05/04/2022 \
 **Languages:** Power Query M
 
-A custom Power BI connector to help you visualise your Up account, your way. 
-
+A custom Power BI connector to help you visualise your Up account, your way.

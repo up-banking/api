@@ -184,6 +184,17 @@
             ]
           }
         },
+        "attachment": {
+          "type": "object",
+          "nullable": true,
+          "properties": {
+            "data": {
+              "type": "string",
+              "nullable": true,
+              "description": "Not sure what this is"
+            }
+          }
+        }
         "required": [
           "type",
           "id",

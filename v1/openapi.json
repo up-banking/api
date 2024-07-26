@@ -36,6 +36,36 @@
         ],
         "description": "Specifies the structure under which a bank account is owned. Currently\nreturned values are `INDIVIDUAL` and `JOINT`.\n"
       },
+      "PurchaseMethodEnum": {
+        "enum": [
+          "CONTACTLESS",
+          "PLASTIC",
+          "CARD_ON_FILE",
+          "CARD_DETAILS"
+        ]
+      },
+      "CardPurchaseObject": {
+        "type": "object",
+        "description": "Provides information about the type of card\n",
+        "properties": {
+            "method": {
+                "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PurchaseMethodEnum"
+                    }
+                ],
+              "description": "The card method used for this purchase.\n"
+            },
+            "cardNumberSuffix": {
+              "type": "string",
+              "description": "The last four digits of the card used for this transaction.\n"
+            }
+        },
+        "required": [
+          "method",
+          "cardNumberSuffix"
+        ]
+      },
       "MoneyObject": {
         "type": "object",
         "description": "Provides information about a value of money.\n",

@@ -48,23 +48,33 @@
         "type": "object",
         "description": "Provides information about the type of card\n",
         "properties": {
-            "method": {
-                "allOf": [
-                    {
-                      "$ref": "#/components/schemas/PurchaseMethodEnum"
-                    }
-                ],
-              "description": "The card method used for this purchase.\n"
-            },
-            "cardNumberSuffix": {
-              "type": "string",
-              "description": "The last four digits of the card used for this transaction.\n"
-            }
+          "method": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PurchaseMethodEnum"
+              }
+            ],
+            "description": "The card method used for this purchase.\n"
+          },
+          "cardNumberSuffix": {
+            "type": "string",
+            "description": "The last four digits of the card used for this transaction.\n"
+          }
         },
         "required": [
           "method",
           "cardNumberSuffix"
         ]
+      },
+      "PerformingCustomer": {
+        "type": "object",
+        "description": "Information about the customer who performed the transaction.\n",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "description": "The customers Up Name.\n"
+          }
+        }
       },
       "MoneyObject": {
         "type": "object",
@@ -182,17 +192,6 @@
             "required": [
               "self"
             ]
-          }
-        },
-        "attachment": {
-          "type": "object",
-          "nullable": true,
-          "properties": {
-            "data": {
-              "type": "string",
-              "nullable": true,
-              "description": "Not sure what this is"
-            }
           }
         },
         "required": [
@@ -835,24 +834,25 @@
                   }
                 ]
               },
-            "transactionType": {
-              "type": "string",
-              "nullable": false,
-              "description": "The type of transaction that occurred.\n"
-            },
-            "note": {
-              "type": "string",
-              "nullable": true,
-              "description": "Not sure what this is"
-            },
-            "performingCustomer": {
-              "nullable": false,
-              "description": "The Up Name of the person who performed the transaction.\n",
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/PerformingCustomer"
-                }
-              ]
+              "transactionType": {
+                "type": "string",
+                "nullable": false,
+                "description": "The type of transaction that occurred.\n"
+              },
+              "note": {
+                "type": "string",
+                "nullable": true,
+                "description": "Not sure what this is"
+              },
+              "performingCustomer": {
+                "nullable": false,
+                "description": "The Up Name of the person who performed the transaction.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/PerformingCustomer"
+                  }
+                ]
+              }
             },
             "required": [
               "status",
@@ -866,7 +866,10 @@
               "amount",
               "foreignAmount",
               "settledAt",
-              "createdAt"
+              "createdAt",
+              "trasactionType",
+              "note",
+              "performingCustomer"
             ]
           },
           "relationships": {
@@ -911,6 +914,7 @@
               },
               "transferAccount": {
                 "type": "object",
+                "nullable": true,
                 "properties": {
                   "data": {
                     "type": "object",
@@ -1067,6 +1071,17 @@
                 "required": [
                   "data"
                 ]
+              },
+              "attachment": {
+                "type": "object",
+                "nullable": true,
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Not sure what this is"
+                  }
+                }
               }
             },
             "required": [
@@ -1074,7 +1089,8 @@
               "transferAccount",
               "category",
               "parentCategory",
-              "tags"
+              "tags",
+              "attachment"
             ]
           },
           "links": {

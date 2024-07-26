@@ -814,7 +814,34 @@
                 "type": "string",
                 "format": "date-time",
                 "description": "The date-time at which this transaction was first encountered.\n"
-              }
+              },
+              "cardPurchaseMethod": {
+                "nullable": true,
+                "description": "Details about what card was used for the transaction.\n",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CardPurchaseObject"
+                  }
+                ]
+              },
+            "transactionType": {
+              "type": "string",
+              "nullable": false,
+              "description": "The type of transaction that occurred.\n"
+            },
+            "note": {
+              "type": "string",
+              "nullable": true,
+              "description": "Not sure what this is"
+            },
+            "performingCustomer": {
+              "nullable": false,
+              "description": "The Up Name of the person who performed the transaction.\n",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/PerformingCustomer"
+                }
+              ]
             },
             "required": [
               "status",

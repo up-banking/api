@@ -1102,7 +1102,7 @@
                     "properties": {
                       "type": {
                         "type": "string",
-                        "description": "The type of this resource: `categories`"
+                        "description": "The type of this resource: `attachments`"
                       },
                       "id": {
                         "type": "string",

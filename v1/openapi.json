@@ -36,12 +36,17 @@
         ],
         "description": "Specifies the structure under which a bank account is owned. Currently\nreturned values are `INDIVIDUAL` and `JOINT`.\n"
       },
-      "PurchaseMethodEnum": {
+      "CardPurchaseMethodEnum": {
         "enum": [
           "CONTACTLESS",
           "PLASTIC",
           "CARD_ON_FILE",
-          "CARD_DETAILS"
+          "CARD_DETAILS",
+          "OCR",
+          "MAGNETIC_STRIPE",
+          "ECOMMERCE",
+          "CARD_PIN",
+          "BAR_CODE"
         ]
       },
       "CardPurchaseObject": {
@@ -51,7 +56,7 @@
           "method": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/PurchaseMethodEnum"
+                "$ref": "#/components/schemas/CardPurchaseMethodEnum"
               }
             ],
             "description": "The card method used for this purchase.\n"
@@ -827,7 +832,7 @@
               },
               "cardPurchaseMethod": {
                 "nullable": true,
-                "description": "Details about what card was used for the transaction.\n",
+                "description": "Information about the card used for this transaction, if applicable.\n",
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/CardPurchaseObject"
@@ -836,13 +841,13 @@
               },
               "transactionType": {
                 "type": "string",
-                "nullable": false,
-                "description": "The type of transaction that occurred.\n"
+                "nullable": true,
+                "description": "A description of the transaction method used e.g. Purchase, BPAY Payment.\n"
               },
               "note": {
                 "type": "string",
                 "nullable": true,
-                "description": "Not sure what this is"
+                "description": "A customer provided note about the transaction. Can only be provided by Up High subscribers.\n"
               },
               "performingCustomer": {
                 "nullable": false,

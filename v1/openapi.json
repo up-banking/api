@@ -857,7 +857,7 @@
               },
               "note": {
                 "nullable": true,
-                "description": "A customer provided note about the transaction. Can only be provided by Up High subscribers.\n"
+                "description": "A customer provided note about the transaction. Can only be provided by Up High subscribers.\n",
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/NoteObject"
@@ -937,7 +937,6 @@
                 "properties": {
                   "data": {
                     "type": "object",
-                    "nullable": true,
                     "properties": {
                       "type": {
                         "type": "string",

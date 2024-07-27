@@ -72,7 +72,7 @@
           "cardNumberSuffix"
         ]
       },
-      "PerformingCustomer": {
+      "CustomerObject": {
         "type": "object",
         "description": "Information about the customer who performed the transaction.\n",
         "properties": {
@@ -660,6 +660,16 @@
         ],
         "description": "Specifies which stage of processing a transaction is currently at.\nCurrently returned values are `HELD` and `SETTLED`. When a transaction is\nheld, its account’s `availableBalance` is affected. When a transaction is\nsettled, its account’s `currentBalance` is affected.\n"
       },
+      "NoteObject": {
+        "type": "object",
+        "description": "A customer provided note about the transaction. Can only be provided by Up High subscribers.",
+        "properties": {
+          "text": {
+            "nullable": false,
+            "type": "string"
+          }
+        }
+      },
       "HoldInfoObject": {
         "type": "object",
         "description": "Provides information about the amount at which a transaction was in the\n`HELD` status.\n",
@@ -846,16 +856,20 @@
                 "description": "A description of the transaction method used e.g. Purchase, BPAY Payment.\n"
               },
               "note": {
-                "type": "string",
                 "nullable": true,
                 "description": "A customer provided note about the transaction. Can only be provided by Up High subscribers.\n"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/NoteObject"
+                  }
+                ]
               },
               "performingCustomer": {
-                "nullable": false,
+                "nullable": true,
                 "description": "The Up Name of the person who performed the transaction.\n",
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/PerformingCustomer"
+                    "$ref": "#/components/schemas/CustomerObject"
                   }
                 ]
               }
@@ -920,10 +934,10 @@
               },
               "transferAccount": {
                 "type": "object",
-                "nullable": true,
                 "properties": {
                   "data": {
                     "type": "object",
+                    "nullable": true,
                     "properties": {
                       "type": {
                         "type": "string",
@@ -942,6 +956,7 @@
                   },
                   "links": {
                     "type": "object",
+                    "nullable": true,
                     "properties": {
                       "related": {
                         "type": "string",
@@ -1083,9 +1098,34 @@
                 "nullable": true,
                 "properties": {
                   "data": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "Not sure what this is"
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "description": "The type of this resource: `categories`"
+                      },
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the resource within its type.\n"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ],
+                    "nullable": true
+                  },
+                  "links": {
+                    "type": "object",
+                    "properties": {
+                      "related": {
+                        "type": "string",
+                        "description": "The link to retrieve the related resource(s) in this relationship.\n"
+                      }
+                    },
+                    "required": [
+                      "related"
+                    ]
                   }
                 }
               }

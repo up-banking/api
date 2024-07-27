@@ -63,6 +63,7 @@
           },
           "cardNumberSuffix": {
             "type": "string",
+            "nullable": true,
             "description": "The last four digits of the card used for this transaction.\n"
           }
         },

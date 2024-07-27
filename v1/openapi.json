@@ -49,7 +49,7 @@
           "BAR_CODE"
         ]
       },
-      "CardPurchaseObject": {
+      "CardPurchaseMethodObject": {
         "type": "object",
         "description": "Provides information about the type of card\n",
         "properties": {
@@ -835,7 +835,7 @@
                 "description": "Information about the card used for this transaction, if applicable.\n",
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/CardPurchaseObject"
+                    "$ref": "#/components/schemas/CardPurchaseMethodObject"
                   }
                 ]
               },

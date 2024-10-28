@@ -908,7 +908,11 @@
                     "$ref": "#/components/schemas/CustomerObject"
                   }
                 ]
-              }
+              },
+              "deepLinkURL": {
+                "type": "string",
+                "description": "A deep link to the transaction receipt screen in-app."
+            }
             },
             "required": [
               "status",
@@ -926,7 +930,8 @@
               "createdAt",
               "transactionType",
               "note",
-              "performingCustomer"
+              "performingCustomer",
+              "deepLinkURL"
             ]
           },
           "relationships": {
@@ -2468,6 +2473,26 @@
             "description": "The number of records to return in each page.\n"
           },
           {
+            "name": "page[before]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example":"WyIyMDI0LTA5LTA2VDEwOjEyOjA2Ljg2MDQ2MzAwMFoiLCJjYjc1ZjI5ZS1lY2M1LTQ5NzYtYWEyOC0KJlkjsdfkA5ZDIiXQ%3D%3D",
+            "description": "To view a page before a specific transaction.\n"
+          },
+          {
+            "name": "page[after]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example":"WyIyMDI0LTA5LTA2VDEwOjEyOjA2Ljg2MDQ2MzAwMFoiLCJjYjc1ZjI5ZS1lY2M1LTQ5NzYtYWEyOC0KJlkjsdfkA5ZDIiXQ%3D%3D",
+            "description": "Where to continue paginating across\n"
+          },
+          {
             "name": "filter[status]",
             "in": "query",
             "schema": {
@@ -2780,6 +2805,26 @@
             "required": false,
             "example": 30,
             "description": "The number of records to return in each page.\n"
+          },
+          {
+            "name": "page[before]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example":"WyIyMDI0LTA5LTA2VDEwOjEyOjA2Ljg2MDQ2MzAwMFoiLCJjYjc1ZjI5ZS1lY2M1LTQ5NzYtYWEyOC0KJlkjsdfkA5ZDIiXQ%3D%3D",
+            "description": "To view a page before a specific transaction.\n"
+          },
+          {
+            "name": "page[after]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example":"WyIyMDI0LTA5LTA2VDEwOjEyOjA2Ljg2MDQ2MzAwMFoiLCJjYjc1ZjI5ZS1lY2M1LTQ5NzYtYWEyOC0KJlkjsdfkA5ZDIiXQ%3D%3D",
+            "description": "Where to continue paginating across\n"
           },
           {
             "name": "filter[status]",

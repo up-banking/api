@@ -202,3 +202,12 @@ A custom Power BI connector to help you visualise your Up account, your way.
 **Languages:** Typescript
 
 A Grafana plugin to visualise transactions & accounts
+
+## Upgo
+
+**Author:** [@porjo](https://github.com/porjo) \
+**Repository:** https://github.com/porjo/upgo \
+**Created:** 14/12/2024 \
+**Languages:** Go
+
+A Go wrapper for the API.

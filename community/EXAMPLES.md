@@ -210,4 +210,4 @@ A Grafana plugin to visualise transactions & accounts
 **Created:** 14/12/2024 \
 **Languages:** Go
 
-A Go wrapper for the API.
+An Up Bank API client library written in Go.

@@ -202,3 +202,12 @@ A custom Power BI connector to help you visualise your Up account, your way.
 **Languages:** Typescript
 
 A Grafana plugin to visualise transactions & accounts
+
+## Up Model-Context Protocol (MCP) Server
+
+**Author:** [@edkranz](https://github.com/edkranz) \
+**Repository:** https://github.com/edkranz/up-mcp \
+**Created:** 16/04/2025 \
+**Languages:** Python
+
+An MCP wrapper for the Up API,

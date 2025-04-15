@@ -210,4 +210,4 @@ A Grafana plugin to visualise transactions & accounts
 **Created:** 16/04/2025 \
 **Languages:** Python
 
-An MCP wrapper for the Up API,
+An MCP wrapper for the Up API, enabling LLMs like Claude (via Claude Desktop) access to the Up API

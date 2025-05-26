@@ -22,6 +22,16 @@ additions to this document.
 Create an apps script function which queries the API and sets the value of a
 cell with a balance of a specified account.
 
+## Up Transactions Web App
+
+**Author:** [@erfanio](https://github.com/erfanio) \
+**Repository:** https://github.com/erfanio/up-transactions-webapp \
+**Created:** 05/07/2022 \
+**Languages:** TypeScript
+
+Create an apps script function which queries the API and sets the value of a
+cell with a balance of a specified account.
+
 ## Up Banking Home Assistant
 
 **Author:** [@jupys](https://github.com/jupys) \

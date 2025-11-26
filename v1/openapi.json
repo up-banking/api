@@ -44,6 +44,7 @@
           },
           "valueInBaseUnits": {
             "type": "integer",
+            "format": "int64",
             "description": "The amount of money in the smallest denomination for the currency, as a\n64-bit integer.  For example, for an Australian dollar value of $10.56,\nthis field will be `1056`.\n"
           }
         },

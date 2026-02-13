@@ -211,3 +211,12 @@ A Grafana plugin to visualise transactions & accounts
 **Languages:** Go
 
 An Up Bank API client library written in Go.
+
+## Rust Up API Client
+
+**Author:** [@aaron-jack-manning](https://github.com/aaron-jack-manning) \
+**Repository:** https://git.aaronmanning.net/aaronmanning/up-api \
+**Created:** 9/07/2022 \
+**Languages:** Rust
+
+A client for interacting with the Up API in Rust.

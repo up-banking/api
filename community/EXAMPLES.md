@@ -22,16 +22,6 @@ additions to this document.
 Create an apps script function which queries the API and sets the value of a
 cell with a balance of a specified account.
 
-## Up Transactions Web App
-
-**Author:** [@erfanio](https://github.com/erfanio) \
-**Repository:** https://github.com/erfanio/up-transactions-webapp \
-**Created:** 05/07/2022 \
-**Languages:** TypeScript
-
-Create an apps script function which queries the API and sets the value of a
-cell with a balance of a specified account.
-
 ## Up Banking Home Assistant
 
 **Author:** [@jupys](https://github.com/jupys) \
@@ -68,6 +58,16 @@ Entities for each accounts balance, with more features planned
 
 A demo app which can be used to view your Up Banking accounts and transactions
 in a web browser.
+
+## Up Transactions Web App
+
+**Author:** [@erfanio](https://github.com/erfanio) \
+**Repository:** https://github.com/erfanio/up-transactions-webapp \
+**Created:** 05/07/2022 \
+**Languages:** TypeScript
+
+Create an apps script function which queries the API and sets the value of a
+cell with a balance of a specified account.
 
 ## up-bank-api
 

@@ -202,3 +202,12 @@ A custom Power BI connector to help you visualise your Up account, your way.
 **Languages:** Typescript
 
 A Grafana plugin to visualise transactions & accounts
+
+## Rust Up API Client
+
+**Author:** [@aaron-jack-manning](https://github.com/aaron-jack-manning) \
+**Repository:** https://git.aaronmanning.net/aaronmanning/up-api \
+**Created:** 9/07/2022 \
+**Languages:** Rust
+
+A client for interacting with the Up API in Rust.

@@ -203,6 +203,15 @@ A custom Power BI connector to help you visualise your Up account, your way.
 
 A Grafana plugin to visualise transactions & accounts
 
+## Upgo
+
+**Author:** [@porjo](https://github.com/porjo) \
+**Repository:** https://github.com/porjo/upgo \
+**Created:** 14/12/2024 \
+**Languages:** Go
+
+An Up Bank API client library written in Go.
+
 ## Rust Up API Client
 
 **Author:** [@aaron-jack-manning](https://github.com/aaron-jack-manning) \

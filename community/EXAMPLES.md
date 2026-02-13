@@ -213,6 +213,15 @@ A custom Power BI connector to help you visualise your Up account, your way.
 
 A Grafana plugin to visualise transactions & accounts
 
+## Up Model-Context Protocol (MCP) Server
+
+**Author:** [@edkranz](https://github.com/edkranz) \
+**Repository:** https://github.com/edkranz/up-mcp \
+**Created:** 16/04/2025 \
+**Languages:** Python
+
+An MCP wrapper for the Up API, enabling LLMs like Claude (via Claude Desktop) access to the Up API
+
 ## Upgo
 
 **Author:** [@porjo](https://github.com/porjo) \
@@ -230,3 +239,4 @@ An Up Bank API client library written in Go.
 **Languages:** Rust
 
 A client for interacting with the Up API in Rust.
+

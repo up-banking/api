@@ -59,6 +59,16 @@ Entities for each accounts balance, with more features planned
 A demo app which can be used to view your Up Banking accounts and transactions
 in a web browser.
 
+## Up Transactions Web App
+
+**Author:** [@erfanio](https://github.com/erfanio) \
+**Repository:** https://github.com/erfanio/up-transactions-webapp \
+**Created:** 05/07/2022 \
+**Languages:** TypeScript
+
+Create an apps script function which queries the API and sets the value of a
+cell with a balance of a specified account.
+
 ## up-bank-api
 
 **Author:** [@jcwillox](https://github.com/jcwillox) \
@@ -211,3 +221,22 @@ A Grafana plugin to visualise transactions & accounts
 **Languages:** Python
 
 An MCP wrapper for the Up API, enabling LLMs like Claude (via Claude Desktop) access to the Up API
+
+## Upgo
+
+**Author:** [@porjo](https://github.com/porjo) \
+**Repository:** https://github.com/porjo/upgo \
+**Created:** 14/12/2024 \
+**Languages:** Go
+
+An Up Bank API client library written in Go.
+
+## Rust Up API Client
+
+**Author:** [@aaron-jack-manning](https://github.com/aaron-jack-manning) \
+**Repository:** https://git.aaronmanning.net/aaronmanning/up-api \
+**Created:** 9/07/2022 \
+**Languages:** Rust
+
+A client for interacting with the Up API in Rust.
+

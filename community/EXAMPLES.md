@@ -25,6 +25,18 @@ A Claude Code skill for analysing personal finances with natural language e.g.
 - "how much am I saving?"
 - "what are my regular expenses?"
 
+## Up Bank → Google Sheets sync
+
+**Author:** [@CorrosiveKid](https://github.com/CorrosiveKid) \
+**Repository:** https://github.com/CorrosiveKid/up_to_gsheets \
+**Created:** 20/09/2026 \
+**Languages:** Python
+
+Self-hosted sync that pulls your transactions, including category and tags,
+into a Google Sheet you own. Runs on a daily schedule on Vercel or on your own
+machine. Safe to re-run: new transactions are appended, and rows that were
+recategorised or retagged in Up are updated in place rather than duplicated.
+
 ## Account balance in Google Sheets
 
 **Author:** [@ilievskizoran](https://github.com/ilievskizoran) \

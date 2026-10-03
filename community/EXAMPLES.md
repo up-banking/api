@@ -12,6 +12,15 @@ If you have a project that you would like listed here, fork this repository and
 [create a pull request](https://github.com/up-banking/api/pulls) with your
 additions to this document.
 
+## Up Banking Hermes Agent Skill
+
+**Author:** [@epicawesomesauce](https://github.com/epicawesomesauce) \
+**Repository:** https://github.com/epicawesomesauce/up-banking-api-skill \
+**Created:** 04/10/2026 \
+**Languages:** Python
+
+A [Hermes Agent](https://hermes-agent.nousresearch.com) skill for reading Up Bank accounts, transactions, and balances. Ships with a stdlib-only Python helper script (`--json` output for AI-driven analysis), curl examples for categorising and tagging, and webhook management. Install via the Hermes skills hub or directly from the repo.
+
 ## Claude code finance skills
 
 **Author:** [@xaviershay](https://github.com/xaviershay) \

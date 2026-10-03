@@ -25,6 +25,15 @@ A Claude Code skill for analysing personal finances with natural language e.g.
 - "how much am I saving?"
 - "what are my regular expenses?"
 
+## Up Banking Hermes Agent Skill
+
+**Author:** [@epicawesomesauce](https://github.com/epicawesomesauce) \
+**Repository:** https://github.com/epicawesomesauce/up-banking-api-skill \
+**Created:** 04/10/2026 \
+**Languages:** Python
+
+A [Hermes Agent](https://hermes-agent.nousresearch.com) skill for reading Up Bank accounts, transactions, and balances. Ships with a stdlib-only Python helper script (`--json` output for AI-driven analysis), curl examples for categorising and tagging, and webhook management. Install via the Hermes skills hub or directly from the repo.
+
 ## Up Bank → Google Sheets sync
 
 **Author:** [@CorrosiveKid](https://github.com/CorrosiveKid) \

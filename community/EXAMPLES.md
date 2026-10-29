@@ -27,8 +27,8 @@ A Claude Code skill for analysing personal finances with natural language e.g.
 
 ## Up Banking Hermes Agent Skill
 
-**Author:** [@epicawesomesauce](https://github.com/epicawesomesauce) \
-**Repository:** https://github.com/epicawesomesauce/up-banking-api-skill \
+**Author:** [@kyoto-aircon](https://github.com/kyoto-aircon) \
+**Repository:** https://github.com/kyoto-aircon/up-banking-api-skill \
 **Created:** 04/10/2026 \
 **Languages:** Python
 
